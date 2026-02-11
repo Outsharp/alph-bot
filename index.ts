@@ -53,8 +53,10 @@ async function main() {
         type: 'array'
       },
       'event-contract-exchange': {
-        describe: 'the exchange(s) to place orders',
-        type: 'array'
+        describe: 'the exchange(s) to place orders. Only kalshi is supported right now.',
+        type: 'array',
+        choices: ['kalshi'],
+        default: 'kalshi'
       },
       'kalshi-api-key-id': {
         describe: 'Api Key Id',
