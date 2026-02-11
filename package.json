@@ -19,11 +19,15 @@
     "node": "^24.13.1"
   },
   "devDependencies": {
+    "@types/logfmt": "^1.2.6",
     "@types/node": "^25.2.3",
     "@types/yargs": "^17.0.35",
     "drizzle-kit": "^0.31.9",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
-  "type": "module"
+  "type": "module",
+  "scripts": {
+    "migrate": "yarn dlx drizzle-kit push"
+  }
 }

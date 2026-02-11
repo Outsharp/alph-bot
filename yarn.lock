@@ -734,6 +734,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/logfmt@npm:^1.2.6":
+  version: 1.2.6
+  resolution: "@types/logfmt@npm:1.2.6"
+  dependencies:
+    "@types/node": "npm:*"
+  checksum: 10c0/02f87e0f67f41cf519150a277d1cc3dc1a4967136686972ae1191afd5c6da5260aed8d3807a88e52bc42f1a016c05c8eaa77f2bf14b3209d8a28920edada1810
+  languageName: node
+  linkType: hard
+
 "@types/node@npm:*, @types/node@npm:^25.2.3":
   version: 25.2.3
   resolution: "@types/node@npm:25.2.3"
@@ -781,6 +790,7 @@ __metadata:
   dependencies:
     "@anthropic-ai/sdk": "npm:^0.74.0"
     "@libsql/client": "npm:^0.17.0"
+    "@types/logfmt": "npm:^1.2.6"
     "@types/node": "npm:^25.2.3"
     "@types/yargs": "npm:^17.0.35"
     axios: "npm:^1.13.5"

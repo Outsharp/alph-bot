@@ -1,10 +1,14 @@
 import { ValueBetConfig, AvailableGamesConfig } from "./config.js"
-import type { ValueBetConfig as ValueBetConfigType, AvailableGamesConfig as AvailableGamesConfigType } from "./config.js"
+import type {
+  ValueBetConfig as ValueBetConfigType,
+  AvailableGamesConfig as AvailableGamesConfigType,
+  GlobalConfig as GlobalConfigType,
+} from "./config.js"
 
 export class AgentAlpha {
-  private rawOpts: unknown
+  private rawOpts: GlobalConfigType
 
-  constructor(opts: unknown) {
+  constructor(opts: GlobalConfigType) {
     this.rawOpts = opts
   }
 
