@@ -42,7 +42,7 @@ If you're interested in full application using this model, check out [Outsharp](
 You can create a [Demo Account](https://help.kalshi.com/account/demo-account)
 on Kalshi to the integration
 
-### Installation
+### First Trade
 
 ```bash
 # Clone repository
@@ -55,9 +55,5 @@ cp .env.example .env
 # Edit .env with your API keys
 vim .env
 
-# Initialize database
-yarn run init
-
-# Build the project
-yarn run build
+./src/index.ts --help
 ```

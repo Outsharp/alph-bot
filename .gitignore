@@ -21,3 +21,5 @@ node_modules
 *.env
 
 /dist/
+
+config.yml
