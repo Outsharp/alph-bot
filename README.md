@@ -6,7 +6,7 @@ Trades on Prediction Markets (Polymarket & Kalshi) using sport data
 from [Shipp.ai](https://docs.shipp.ai).
 
 > [!important] 
-This Application involves Risking Real Money. Agent α is intended to be a starting point, and should be verified and tested for your usecase.
+This Application involves risking real money. Agent α is intended to be a starting point, and should be verified and tested for your usecase.
 
 ## Overview
 
@@ -26,7 +26,7 @@ If you're interested in full application using this model, check out [Outsharp](
 - ✅ **Comprehensive risk management** (position limits, circuit breakers)
 - ✅ **Paper trading mode** for safe testing
 - ✅ **Live dashboard** for real-time monitoring
-- ✅ **Complete audit trail** with SQLite database
+- ✅ **Complete audit trail** with DuckDB
 
 ## 🚀 Quick Start
 

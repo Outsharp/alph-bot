@@ -1,4 +1,25 @@
 {
   "name": "agent-alpha",
-  "packageManager": "yarn@4.12.0"
+  "packageManager": "yarn@4.12.0",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0",
+    "@libsql/client": "^0.17.0",
+    "axios": "^1.13.5",
+    "dotenv": "^17.2.4",
+    "drizzle-orm": "^0.45.1",
+    "id128": "^1.6.6",
+    "kalshi-typescript": "^3.6.0",
+    "logfmt": "^1.4.0",
+    "yargs": "^18.0.0"
+  },
+  "engines": {
+    "node": "^24.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^25.2.3",
+    "drizzle-kit": "^0.31.9",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
+  },
+  "type": "module"
 }
