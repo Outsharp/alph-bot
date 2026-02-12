@@ -45,7 +45,7 @@ export class AgentAlpha {
     // Filter out completed games (API uses game_status field) and sort by schedule time desc
     const activeGames = schedule.schedule
       .filter(
-        (game) => game.game_status !== 'completed' && game.game_status !== 'closed'
+        (game) => game.game_status !== 'finished'
       )
       .sort((a, b) => {
         const timeA = a.scheduled ? new Date(a.scheduled).getTime() : 0
