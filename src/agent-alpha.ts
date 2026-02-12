@@ -5,6 +5,7 @@ import {
 } from "./config.js"
 import { Context } from "./ctx.js"
 import { ShippAdapter } from "./adapters/shipp.js"
+import { TradingLoop } from "./trading/loop.js"
 
 export class AgentAlpha {
   private ctx: Context
@@ -21,29 +22,16 @@ export class AgentAlpha {
   async valueBet() {
     const opts: ValueBetConfigType = ValueBetConfig.parse(this.ctx.opts)
 
-    // Poll live events for each specified game
-    if (opts.game && opts.game.length > 0) {
-      for (const gameId of opts.game) {
-        const events = await this.shipp.getLiveEvents({
-          gameId,
-          sport: 'NBA', // TODO: infer from gameId or make configurable
-          limit: 50,
-        })
-
-        // getLiveEvents() internally checks game status:
-        // - If 'scheduled': polls normally, updates to 'live' on first event
-        // - If 'live': polls normally
-        // - If 'completed': skips API call, returns empty array
-
-        if (events.data.length === 0) continue; // Skip if no events or game completed
-
-        // TODO: Process events for trading logic
-        // - Analyze events with Claude AI
-        // - Query Kalshi market data
-        // - Identify mispriced markets
-        // - Execute trades with risk management
-      }
+    if (!opts.game || opts.game.length === 0) {
+      console.log('No game ID specified. Use --game <id> to specify a game.')
+      return
     }
+
+    // Single game per invocation (use first game ID)
+    const gameId = opts.game[0]!
+
+    const loop = new TradingLoop(this.ctx, opts)
+    await loop.run(gameId)
   }
 
   async availableGames() {
