@@ -4,20 +4,21 @@ import {
   type AvailableGamesConfig as AvailableGamesConfigType,
   GlobalConfig as GlobalConfigType,
 } from "./config.js"
+import { Context } from "./ctx.js"
 
 export class AgentAlpha {
-  private rawOpts: GlobalConfigType
+  private ctx: Context
 
   constructor(opts: unknown) {
-    this.rawOpts = GlobalConfigType.parse(opts)
+    this.ctx = new Context(opts)
   }
 
   async valueBet() {
-    const opts: ValueBetConfigType = ValueBetConfig.parse(this.rawOpts)
+    const opts: ValueBetConfigType = ValueBetConfig.parse(this.ctx.opts)
     // execute based on actions
   }
 
   async availableGames() {
-    const opts: AvailableGamesConfigType = AvailableGamesConfig.parse(this.rawOpts)
+    const opts: AvailableGamesConfigType = AvailableGamesConfig.parse(this.ctx.opts)
   }
 }
