@@ -1,6 +1,7 @@
 import id128 from 'id128'
 import logfmt from 'logfmt'
 import type { Context } from './ctx.js'
+import { logs } from './db/schema.js'
 
 // severity aligns to https://opentelemetry.io/docs/specs/otel/logs/data-model/#field-severitynumber
 // 1-4	TRACE	A fine-grained debugging event. Typically disabled in default configurations.
@@ -31,6 +32,10 @@ export class Logs {
     })
 
     // save to db
-
+    this.conf.db.insert(logs).values({
+      id: id.toCanonical(),
+      severity: sev,
+      data: desc,
+    }).run()
   }
 }
