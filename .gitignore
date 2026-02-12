@@ -27,3 +27,5 @@ config.yml
 *.pem
 
 *.sqlite
+
+.DS_Store
