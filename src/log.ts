@@ -20,7 +20,7 @@ export enum Severity {
 }
 
 export class Logs {
-  constructor(protected conf: Context) {}
+  constructor(protected ctx: Context) {}
 
   protected log(sev: Severity, desc: string) {
     const id = id128.Ulid.generate()
@@ -32,7 +32,7 @@ export class Logs {
     })
 
     // save to db
-    this.conf.db.insert(logs).values({
+    this.ctx.db.insert(logs).values({
       id: id.toCanonical(),
       severity: sev,
       data: desc,

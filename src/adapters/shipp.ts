@@ -83,7 +83,7 @@ export class ShippAdapter extends Logs {
         ? new Date(game.scheduled).valueOf() / 1_000
         : undefined;
 
-      await this.conf.db
+      await this.ctx.db
         .insert(games)
         .values({
           id: id128.Ulid.generate().toCanonical(),
@@ -121,7 +121,7 @@ export class ShippAdapter extends Logs {
    */
   async getOrCreateConnection(options: CreateConnectionOptions): Promise<string> {
     // Check if connection already exists for this sport/filter
-    const existing = await this.conf.db
+    const existing = await this.ctx.db
       .select()
       .from(connections)
       .where(eq(connections.filterInstructions, options.filterInstructions))
@@ -146,7 +146,7 @@ export class ShippAdapter extends Logs {
 
     // Persist to database
     const connectionId = response.data.connection_id;
-    await this.conf.db.insert(connections).values({
+    await this.ctx.db.insert(connections).values({
       id: id128.Ulid.generate().toCanonical(),
       connectionId,
       filterInstructions: options.filterInstructions,
@@ -168,7 +168,7 @@ export class ShippAdapter extends Logs {
    */
   async getLiveEvents(options: GetLiveEventsOptions): Promise<ShippConnectionRunResponse> {
     // Check game status first - skip if completed
-    const game = await this.conf.db
+    const game = await this.ctx.db
       .select()
       .from(games)
       .where(eq(games.gameId, options.gameId))
@@ -195,7 +195,7 @@ export class ShippAdapter extends Logs {
     // Get last event ID from database if not provided
     let sinceEventId = options.sinceEventId;
     if (!sinceEventId) {
-      const conn = await this.conf.db
+      const conn = await this.ctx.db
         .select()
         .from(connections)
         .where(eq(connections.connectionId, connectionId))
@@ -229,7 +229,7 @@ export class ShippAdapter extends Logs {
       const lastEventId = lastEvent?.event_id || lastEvent?.id;
 
       if (lastEventId) {
-        await this.conf.db
+        await this.ctx.db
           .update(connections)
           .set({
             lastRunAt: Date.now(),
@@ -261,7 +261,7 @@ export class ShippAdapter extends Logs {
       updateData.endTime = Date.now();
     }
 
-    await this.conf.db
+    await this.ctx.db
       .update(games)
       .set(updateData)
       .where(eq(games.gameId, gameId))
