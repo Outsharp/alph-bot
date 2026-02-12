@@ -20,7 +20,7 @@ export enum Severity {
 }
 
 export class Logs {
-  constructor(private conf: Context) {}
+  constructor(protected conf: Context) {}
 
   protected log(sev: Severity, desc: string) {
     const id = id128.Ulid.generate()

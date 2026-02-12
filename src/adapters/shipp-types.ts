@@ -1,4 +1,7 @@
-import { Sport } from '../config.js';
+import type { Sport } from '../config.js';
+import type * as z from 'zod';
+
+type SportType = z.infer<typeof Sport>;
 
 // Base API response types
 
@@ -61,12 +64,12 @@ export interface ShippConnectionsListResponse {
 // Configuration for adapter methods
 
 export interface GetScheduleOptions {
-  sport: typeof Sport;
+  sport: SportType;
 }
 
 export interface GetLiveEventsOptions {
   gameId: string;
-  sport: typeof Sport;
+  sport: SportType;
   since?: string;
   sinceEventId?: string;
   limit?: number;
@@ -74,7 +77,7 @@ export interface GetLiveEventsOptions {
 
 export interface CreateConnectionOptions {
   filterInstructions: string;
-  sport: typeof Sport;
+  sport: SportType;
   name?: string;
   description?: string;
 }
