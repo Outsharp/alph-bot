@@ -12,9 +12,9 @@ export interface ShippScheduleResponse {
 export interface ShippScheduleGame {
   game_id?: string;
   id?: string;
-  home_team?: string;
-  away_team?: string;
-  start_time?: string;
+  home?: string;
+  away?: string;
+  scheduled?: string;
   status?: string;
   venue?: string;
   // Flexible - sport-specific fields vary

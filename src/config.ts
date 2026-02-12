@@ -10,6 +10,7 @@ export const GlobalConfig = z.object({
   demo: z.boolean().default(false),
   paper: z.boolean().default(false),
   'db-filename': z.string().default('db.sql'),
+  'shipp-api-key': z.string().optional(),
 })
 
 export const ValueBetConfig = GlobalConfig.extend({
@@ -25,9 +26,6 @@ export const ValueBetConfig = GlobalConfig.extend({
   'ai-provider': AiProvider.default('anthropic'),
   'ai-provider-api-key': z.string(),
   'ai-model-temperature': z.number().min(0).max(2).default(0.2),
-
-  // shipp
-  'shipp_api_key': z.string().optional(),
 
   // strategy
   'min-edge-pct': z.number().min(0).default(5),

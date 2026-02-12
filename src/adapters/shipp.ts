@@ -76,10 +76,12 @@ export class ShippAdapter extends Logs {
 
     // Upsert games to database with 'scheduled' status
     for (const game of response.data.schedule) {
-      const gameId = game.game_id || game.id;
+      const gameId = game.game_id;
       if (!gameId) continue;
 
-      const startTime = game.start_time ? new Date(game.start_time).getTime() : undefined;
+      const startTime = game.scheduled
+        ? new Date(game.scheduled).valueOf() / 1_000
+        : undefined;
 
       await this.conf.db
         .insert(games)
@@ -88,8 +90,8 @@ export class ShippAdapter extends Logs {
           gameId,
           sport: options.sport,
           status: 'scheduled',
-          homeTeam: game.home_team,
-          awayTeam: game.away_team,
+          homeTeam: game.home,
+          awayTeam: game.away,
           venue: game.venue,
           scheduledStartTime: startTime,
           metadata: JSON.stringify(game),
@@ -99,8 +101,8 @@ export class ShippAdapter extends Logs {
         .onConflictDoUpdate({
           target: games.gameId,
           set: {
-            homeTeam: game.home_team,
-            awayTeam: game.away_team,
+            homeTeam: game.home,
+            awayTeam: game.away,
             venue: game.venue,
             scheduledStartTime: startTime,
             metadata: JSON.stringify(game),

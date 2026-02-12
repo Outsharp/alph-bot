@@ -6,7 +6,7 @@ export class Context {
   public db: ReturnType<typeof drizzle>
 
   constructor(public opts: unknown) {
-    const dbFilename = GlobalConfig.parse(opts)["db-filename"]
+    const dbFilename = 'file:' + GlobalConfig.parse(opts)["db-filename"]
 
     this.db = drizzle(dbFilename)
   }

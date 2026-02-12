@@ -1,8 +1,7 @@
-import { ValueBetConfig, AvailableGamesConfig } from "./config.js"
+import { ValueBetConfig, AvailableGamesConfig, GlobalConfig } from "./config.js"
 import {
   type ValueBetConfig as ValueBetConfigType,
   type AvailableGamesConfig as AvailableGamesConfigType,
-  GlobalConfig as GlobalConfigType,
 } from "./config.js"
 import { Context } from "./ctx.js"
 import { ShippAdapter } from "./adapters/shipp.js"
@@ -15,10 +14,8 @@ export class AgentAlpha {
     this.ctx = new Context(opts)
 
     // Initialize Shipp adapter (will be used by both commands)
-    // Parse opts to extract shipp_api_key if available
-    const config = ValueBetConfig.partial().safeParse(opts)
-    const shippApiKey = config.success ? config.data.shipp_api_key : undefined
-    this.shipp = new ShippAdapter(this.ctx, shippApiKey)
+    const globalConfig = GlobalConfig.parse(opts)
+    this.shipp = new ShippAdapter(this.ctx, globalConfig["shipp-api-key"])
   }
 
   async valueBet() {
@@ -63,9 +60,11 @@ export class AgentAlpha {
 
     for (const game of schedule.schedule) {
       const gameId = game.game_id || game.id || 'unknown'
-      const homeTeam = game.home_team || 'Home'
-      const awayTeam = game.away_team || 'Away'
-      const startTime = game.start_time || 'TBD'
+      const homeTeam = game.home || 'Home'
+      const awayTeam = game.away || 'Away'
+      const startTime = game.scheduled
+        ? new Date(game.scheduled).toLocaleString()
+        : 'TBD'
       const status = game.status || 'scheduled'
 
       console.log(`${gameId.padEnd(30)} ${awayTeam} @ ${homeTeam}`)

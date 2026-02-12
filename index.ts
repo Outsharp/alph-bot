@@ -44,6 +44,10 @@ async function main() {
         type: 'string',
         default: 'db.sqlite'
       },
+      'shipp-api-key': {
+        describe: 'API Key from Shipp.ai (https://platform.shipp.ai)',
+        type: 'string'
+      },
     })
     .command('value-bet', 'Value Bet against configured games', {
       'game': {
@@ -87,10 +91,7 @@ async function main() {
         type: 'number',
         default: 0.2
       },
-      'shipp_api_key': {
-        describe: 'API Key from Shipp.ai (https://platform.shipp.ai)',
-        type: 'string'
-      },
+
       'min-edge-pct': {
         describe: 'Minimum Edge Percentage to execute a trade',
         type: 'number',
