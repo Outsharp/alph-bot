@@ -55,7 +55,7 @@ cp .env.example .env
 # Edit .env with your API keys
 vim .env
 
-yarn migrate --url file:db.sqlite
+yarn migrate
 
 ./src/index.ts --help
 ```

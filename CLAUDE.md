@@ -17,7 +17,7 @@ Agent α is an automated trading bot for prediction markets (Kalshi & Polymarket
 yarn exec tsx index.ts --help
 
 # Database migrations (uses drizzle-kit)
-yarn migrate --url file:db.sqlite
+yarn migrate
 ```
 
 ### Main Commands
