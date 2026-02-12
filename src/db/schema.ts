@@ -1,16 +1,16 @@
 
 import { int, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
-import { Ulid } from "id128";
+import id128 from "id128";
 
 export const events = sqliteTable("events", {
-  id: text().$defaultFn(() => Ulid.generate().toCanonical()).primaryKey(),
+  id: text().$defaultFn(() => id128.Ulid.generate().toCanonical()).primaryKey(),
   gameId: text().notNull(),
   sport: text().notNull(),
   desc: text().notNull(),
 });
 
 export const orders = sqliteTable("orders", {
-  id: text().$defaultFn(() => Ulid.generate().toCanonical()).primaryKey(),
+  id: text().$defaultFn(() => id128.Ulid.generate().toCanonical()).primaryKey(),
 
   marketType: text().notNull(),
   marketId: text().notNull(),
@@ -45,14 +45,14 @@ export const orders = sqliteTable("orders", {
 });
 
 export const logs = sqliteTable('logs', {
-  id: text().$defaultFn(() => Ulid.generate().toCanonical()).primaryKey(),
+  id: text().$defaultFn(() => id128.Ulid.generate().toCanonical()).primaryKey(),
 
   severity: int().notNull(),
   data: text(),
 })
 
 export const games = sqliteTable("games", {
-  id: text().$defaultFn(() => Ulid.generate().toCanonical()).primaryKey(),
+  id: text().$defaultFn(() => id128.Ulid.generate().toCanonical()).primaryKey(),
   gameId: text("game_id").notNull().unique(), // Shipp game identifier
   sport: text().notNull(),
 
@@ -76,7 +76,7 @@ export const games = sqliteTable("games", {
 });
 
 export const connections = sqliteTable("connections", {
-  id: text().$defaultFn(() => Ulid.generate().toCanonical()).primaryKey(),
+  id: text().$defaultFn(() => id128.Ulid.generate().toCanonical()).primaryKey(),
 
   // Shipp connection details
   connectionId: text("connection_id").notNull().unique(), // ULID from Shipp

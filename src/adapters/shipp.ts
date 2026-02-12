@@ -3,7 +3,7 @@ import type { Context } from '../ctx.js';
 import { Logs, Severity } from '../log.js';
 import { connections, games } from '../db/schema.js';
 import { eq } from 'drizzle-orm';
-import { Ulid } from 'id128';
+import id128 from 'id128';
 import type {
   ShippScheduleResponse,
   ShippConnectionCreateRequest,
@@ -84,7 +84,7 @@ export class ShippAdapter extends Logs {
       await this.conf.db
         .insert(games)
         .values({
-          id: Ulid.generate().toCanonical(),
+          id: id128.Ulid.generate().toCanonical(),
           gameId,
           sport: options.sport,
           status: 'scheduled',
@@ -145,7 +145,7 @@ export class ShippAdapter extends Logs {
     // Persist to database
     const connectionId = response.data.connection_id;
     await this.conf.db.insert(connections).values({
-      id: Ulid.generate().toCanonical(),
+      id: id128.Ulid.generate().toCanonical(),
       connectionId,
       filterInstructions: options.filterInstructions,
       sport: options.sport,
