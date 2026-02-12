@@ -89,7 +89,7 @@ export class ShippAdapter extends Logs {
           id: id128.Ulid.generate().toCanonical(),
           gameId,
           sport: options.sport,
-          status: 'scheduled',
+          status: (game.game_status as GameStatus) || 'scheduled',
           homeTeam: game.home,
           awayTeam: game.away,
           venue: game.venue,
@@ -101,6 +101,7 @@ export class ShippAdapter extends Logs {
         .onConflictDoUpdate({
           target: games.gameId,
           set: {
+            status: (game.game_status as GameStatus) || 'scheduled',
             homeTeam: game.home,
             awayTeam: game.away,
             venue: game.venue,

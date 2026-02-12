@@ -39,6 +39,7 @@ export const ValueBetConfig = GlobalConfig.extend({
   'max-daily-loss-usd': z.number().min(0).default(500),
   'max-daily-trades': z.number().int().min(0).default(50),
   'min-account-balance-usd': z.number().min(0).default(100),
+  'poll-interval-ms': z.number().int().min(0).default(5000),
 })
 
 export const AvailableGamesConfig = GlobalConfig.extend({

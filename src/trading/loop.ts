@@ -9,8 +9,12 @@ import { AnthropicAdapter, type ProbabilityEstimate } from '../adapters/anthropi
 import { RiskManager, type TradingStats } from './risk-manager.js'
 import type { ShippEvent } from '../adapters/shipp-types.js'
 
-const POLL_INTERVAL_MS = 5_000
-const ERROR_BACKOFF_MS = 10_000
+export interface TradingDeps {
+  shipp: ShippAdapter
+  kalshi: KalshiAdapter
+  anthropic: AnthropicAdapter
+  riskManager: RiskManager
+}
 
 export class TradingLoop extends Logs {
   private readonly shipp: ShippAdapter
@@ -19,26 +23,33 @@ export class TradingLoop extends Logs {
   private readonly riskManager: RiskManager
   private readonly config: ValueBetConfig
 
-  constructor(ctx: Context, config: ValueBetConfig) {
+  constructor(ctx: Context, config: ValueBetConfig, deps?: TradingDeps) {
     super(ctx)
     this.config = config
 
-    this.shipp = new ShippAdapter(ctx, config['shipp-api-key'])
-    this.kalshi = new KalshiAdapter(
-      ctx,
-      config['kalshi-api-key-id'] ?? '',
-      config['kalshi-private-key-path'] ?? '',
-    )
-    this.anthropic = new AnthropicAdapter(
-      ctx,
-      config['ai-provider-api-key'],
-      config['ai-model'],
-      config['ai-model-temperature'],
-    )
-    this.riskManager = new RiskManager(ctx, config, this.kalshi)
+    if (deps) {
+      this.shipp = deps.shipp
+      this.kalshi = deps.kalshi
+      this.anthropic = deps.anthropic
+      this.riskManager = deps.riskManager
+    } else {
+      this.shipp = new ShippAdapter(ctx, config['shipp-api-key'])
+      this.kalshi = new KalshiAdapter(
+        ctx,
+        config['kalshi-api-key-id'] ?? '',
+        config['kalshi-private-key-path'] ?? '',
+      )
+      this.anthropic = new AnthropicAdapter(
+        ctx,
+        config['ai-provider-api-key'],
+        config['ai-model'],
+        config['ai-model-temperature'],
+      )
+      this.riskManager = new RiskManager(ctx, config, this.kalshi)
+    }
   }
 
-  async run(gameId: string): Promise<void> {
+  async run(gameId: string, signal?: AbortSignal): Promise<void> {
     this.log(Severity.INF, `Starting trading loop for game ${gameId}`)
 
     // Look up game in DB
@@ -114,7 +125,7 @@ export class TradingLoop extends Logs {
     // Main poll loop
     const allEvents: ShippEvent[] = []
 
-    while (true) {
+    while (!signal?.aborted) {
       try {
         // Poll for new events
         const eventsResp = await this.shipp.getLiveEvents({
@@ -137,7 +148,7 @@ export class TradingLoop extends Logs {
         }
 
         if (eventsResp.data.length === 0) {
-          await sleep(POLL_INTERVAL_MS)
+          await sleep(this.config['poll-interval-ms'])
           continue
         }
 
@@ -159,12 +170,13 @@ export class TradingLoop extends Logs {
         const stats = await this.riskManager.getStats(gameId)
         this.logStats(stats)
 
-        await sleep(POLL_INTERVAL_MS)
+        await sleep(this.config['poll-interval-ms'])
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
         this.log(Severity.ERR, `Loop error: ${msg}`)
-        console.error(`Error in trading loop: ${msg}. Retrying in ${ERROR_BACKOFF_MS / 1000}s...`)
-        await sleep(ERROR_BACKOFF_MS)
+        const backoff = this.config['poll-interval-ms'] * 2
+        console.error(`Error in trading loop: ${msg}. Retrying in ${backoff / 1000}s...`)
+        await sleep(backoff)
       }
     }
   }

@@ -42,25 +42,36 @@ export class AgentAlpha {
       sport: opts.sport,
     })
 
+    // Filter out completed games (API uses game_status field) and sort by schedule time desc
+    const activeGames = schedule.schedule
+      .filter(
+        (game) => game.game_status !== 'completed' && game.game_status !== 'closed'
+      )
+      .sort((a, b) => {
+        const timeA = a.scheduled ? new Date(a.scheduled).getTime() : 0
+        const timeB = b.scheduled ? new Date(b.scheduled).getTime() : 0
+        return timeB - timeA
+      })
+
     // Display available games
     console.log(`\nAvailable ${opts.sport} games:`)
     console.log('─'.repeat(80))
 
-    for (const game of schedule.schedule) {
+    for (const game of activeGames) {
       const gameId = game.game_id || game.id || 'unknown'
       const homeTeam = game.home || 'Home'
       const awayTeam = game.away || 'Away'
       const startTime = game.scheduled
         ? new Date(game.scheduled).toLocaleString()
         : 'TBD'
-      const status = game.status || 'scheduled'
+      const status = (game.game_status as string) || 'scheduled'
 
       console.log(`${gameId.padEnd(30)} ${awayTeam} @ ${homeTeam}`)
       console.log(`${' '.repeat(30)} Start: ${startTime} | Status: ${status}`)
       console.log()
     }
 
-    console.log(`Total: ${schedule.schedule.length} games`)
+    console.log(`Total: ${activeGames.length} games`)
     console.log('─'.repeat(80))
   }
 }

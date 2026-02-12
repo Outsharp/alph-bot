@@ -24,10 +24,13 @@
     "@types/yargs": "^17.0.35",
     "drizzle-kit": "^0.31.9",
     "tsx": "^4.21.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
   },
   "type": "module",
   "scripts": {
-    "migrate": "DB_url=\"$@\" yarn exec drizzle-kit push"
+    "migrate": "DB_url=\"$@\" yarn exec drizzle-kit push",
+    "test": "vitest run",
+    "test:watch": "vitest"
   }
 }
