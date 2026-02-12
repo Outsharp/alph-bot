@@ -21,7 +21,7 @@ async function main() {
       'For example, --ai-provider-api-key can be set as AGENT_ALPHA_AI_PROVIDER_API_KEY.\n\n' +
       'Created by https://shipp.ai')
     .alias('help', 'h')
-    .strict()
+    .strictCommands()
     .recommendCommands()
     .version(pkg.version)
     .env('AGENT_ALPHA')
