@@ -2,8 +2,6 @@
 
 import yargs from "yargs";
 import { hideBin } from 'yargs/helpers'
-import yaml from "yaml";
-import fs from 'fs'
 import pkg from './package.json' with {type: 'json'}
 
 import 'dotenv/config'
@@ -44,7 +42,7 @@ async function main() {
         alias: 'f',
         describe: 'sqlite database filename',
         type: 'string',
-        default: 'db.sql'
+        default: 'db.sqlite'
       },
     })
     .command('value-bet', 'Value Bet against configured games', {
