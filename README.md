@@ -77,4 +77,4 @@ yarn migrate
 
 Data Powered By
 
-![Shipp](https://platform.shipp.staging.shippyard-labs.com/logos/shipp-horizontal-dark.svg){height=28px}
+![Shipp](https://platform.shipp.staging.shippyard-labs.com/logos/shipp-horizontal-dark.svg){height=96px}
