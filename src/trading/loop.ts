@@ -116,11 +116,6 @@ export class TradingLoop extends Logs {
       return
     }
 
-    console.log(`Found ${markets.length} market(s)`)
-    for (const m of markets) {
-      console.log(`  ${m.ticker}: ${m.title} (yes=${m.yesAsk}c / no=${m.noAsk}c)`)
-    }
-
     // Main poll loop
     const allEvents: ShippEvent[] = []
 
