@@ -53,7 +53,7 @@ on Kalshi to the integration. Recommended before trading.
 
 ### Start Trading
 
-```bash
+```console
 # Clone repository
 git clone https://gitlab.com/outsharp/shipp/agent-alpha.git
 cd agent-alpha
