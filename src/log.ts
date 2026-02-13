@@ -24,12 +24,14 @@ export class Logs {
 
   protected log(sev: Severity, desc: string) {
     const id = id128.Ulid.generate()
-    logfmt.stringify({
+    const data = logfmt.stringify({
       ts: id.time.toLocaleString(),
       sev,
       id,
       desc
     })
+
+    console.log(data)
 
     // save to db
     this.ctx.db.insert(logs).values({
