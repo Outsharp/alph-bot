@@ -75,34 +75,6 @@ yarn migrate
 ./index.ts value-bet -d --game 01KHA58Y81SG3RQD3HZ4X31NYR
 ```
 
-<div style="cursor: pointer; padding: 12px; border-radius: 4px; background-color: #0b0b0f; display: flex; align-items: center; justify-content: center; gap: 12px; font-family: var(--md-text-font-family, sans-serif); line-height: 1.5;" onclick="()=>window.open('https://shipp.ai', '_blank').focus()">
-  
-  <span style="font-size: 16px; font-weight: 500; color: #fafafa; opacity: 0.8;">
-    Data powered by
-  </span>
+Data Powered By
 
-  <div style="display: flex; align-items: center; justify-content: center; gap: 6px;">
-    <picture>
-      <img 
-        src="https://platform.shipp.staging.shippyard-labs.com/logos/shipp-horizontal-dark.svg" 
-        alt="Shipp" 
-        style="height: 28px; width: auto; display: block;" 
-      />
-    </picture>
-    <span style="
-      font-size: 11px; 
-      font-weight: 700; 
-      text-transform: uppercase; 
-      letter-spacing: 0.05em; 
-      padding: 2px 8px; 
-      border-radius: 12px; 
-      background-color: #c026d3; 
-      color: #ffffff;
-      display: inline-flex;
-      align-items: center;
-      height: fit-content;
-    ">
-      Beta
-    </span>
-  </div>
-</div>
+![Shipp](https://platform.shipp.staging.shippyard-labs.com/logos/shipp-horizontal-dark.svg){height=28px}
