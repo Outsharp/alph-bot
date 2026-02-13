@@ -167,9 +167,9 @@ export class TradingLoop extends Logs {
         await sleep(this.config['poll-interval-ms'])
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err)
-        this.log(Severity.ERR, `Loop error: ${msg}`)
         const backoff = this.config['poll-interval-ms'] * 2
-        console.error(`Error in trading loop: ${msg}. Retrying in ${backoff / 1000}s...`)
+        // @ts-ignore
+        this.log(Severity.ERR, `Error in trading loop: ${msg}. Retrying in ${backoff / 1000}s\n${err?.stack ?? ''}`)
         await sleep(backoff)
       }
     }
