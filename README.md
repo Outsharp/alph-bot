@@ -89,7 +89,6 @@ yarn migrate
         style="height: 28px; width: auto; display: block;" 
       />
     </picture>
-
     <span style="
       font-size: 11px; 
       font-weight: 700; 
