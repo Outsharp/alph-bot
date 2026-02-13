@@ -27,7 +27,7 @@ export class Logs {
     const data = logfmt.stringify({
       ts: id.time.toLocaleString(),
       sev,
-      id,
+      id: id.toCanonical(),
       desc
     })
 
