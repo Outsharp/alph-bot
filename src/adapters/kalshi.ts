@@ -150,15 +150,26 @@ export class KalshiAdapter extends Logs {
       )
 
       for (const event of eventsResp.data.events) {
-        // Check if event title mentions either team
         const eventTitle = (event.title ?? '').toLowerCase()
-        const eventSubTitle = (event.sub_title ?? '').toLowerCase()
-        const eventText = `${eventTitle} ${eventSubTitle}`
+        // const eventSubTitle = (event.sub_title ?? '').toLowerCase()
+        // const eventText = `${eventTitle} ${eventSubTitle}`
 
-        const matchesHome = eventText.includes(homeLower)
-        const matchesAway = eventText.includes(awayLower)
+        // const matchesHome = eventText.includes(homeLower)
+        // const matchesAway = eventText.includes(awayLower)
 
-        if (!matchesHome && !matchesAway) continue
+        // if (!matchesHome || !matchesAway) continue
+
+        const [eventHome, eventAway] = eventTitle.split('vs')
+        this.log(Severity.TRC, `Kalshi checking event title: ${event.title}`)
+
+        if (
+          !homeLower.startsWith((eventHome ?? '').trim()) ||
+          !awayLower.startsWith((eventAway ?? '').trim())
+        ) {
+          continue
+        }
+
+        // this.log(Severity.DBG, `Kalshi found event ${JSON.stringify(event)}`)
 
         // Process markets within this event
         const markets = event.markets ?? []
