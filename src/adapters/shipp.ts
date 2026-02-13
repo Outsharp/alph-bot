@@ -219,14 +219,18 @@ export class ShippAdapter extends Logs {
       request
     );
 
+    // most likely the connection is correct, but just-in-case guard against extra data we don't need.
+    // also possible we're reusing a connection that exists or in the future making prop bets on a specific player
+    const events = response.data.data.filter(e => e.game_id == options.gameId)
+
     // Update game status to 'live' if we got events and game is currently 'scheduled'
-    if (response.data.data.length > 0 && game?.status === 'scheduled') {
+    if (events.length > 0 && game?.status === 'scheduled') {
       await this.updateGameStatus(options.gameId, 'live');
     }
 
     // Update last run time and last event ID
-    if (response.data.data.length > 0) {
-      const lastEvent = response.data.data[response.data.data.length - 1];
+    if (events.length > 0) {
+      const lastEvent = events[events.length - 1];
       const lastEventId = lastEvent?.event_id || lastEvent?.id;
 
       if (lastEventId) {
@@ -241,7 +245,7 @@ export class ShippAdapter extends Logs {
       }
     }
 
-    this.log(Severity.INF, `Retrieved ${response.data.data.length} live events`);
+    this.log(Severity.INF, `Retrieved ${events.length} live events`);
     return response.data;
   }
 
