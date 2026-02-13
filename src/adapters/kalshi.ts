@@ -176,8 +176,8 @@ export class KalshiAdapter extends Logs {
         for (const m of markets) {
           // Filter by close time window
           if (m.close_time) {
-            const closeTs = new Date(m.close_time).getTime() / 1000
-            if (closeTs < minCloseTs || closeTs > maxCloseTs) continue
+            const closeTs = new Date(m.expected_expiration_time ?? 0).getTime() / 1000
+            if (closeTs > maxCloseTs) continue
           }
 
           // Skip non-active markets if requested
