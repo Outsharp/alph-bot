@@ -9,13 +9,35 @@ import {
   type Market,
   type Order,
   type GetMarketsStatusEnum,
+  type EventData,
 } from 'kalshi-typescript';
 import { Logs, Severity } from '../log.js';
 import type { Context } from '../ctx.js';
 import { GlobalConfig } from '../config.js';
+import soccerSeriesTickers from './kalshi-soccer-series-tickers.json' with {type: 'json'}
 
 const DEMO_BASE = 'https://demo-api.kalshi.co/trade-api/v2'
 const PROD_BASE = 'https://api.elections.kalshi.com/trade-api/v2'
+
+function sportToSeriesTicker(sport: string): string[] {
+  sport = sport.toLowerCase()
+
+  if (sport == 'nba') {
+    return ['KXNBAGAME']
+  } else if (sport == 'soccer') {
+    return soccerSeriesTickers
+  } else if (sport == 'nfl') {
+    return ['KXNFLGAME']
+  } else if (sport == 'ncaafb') {
+    return ['']
+  } else if (sport == 'mlb') {
+    return ['KXMLBGAME']
+  } else if (sport == 'ncaamb') {
+    return ['KXNCAAMBGAME']
+  }
+
+  return []
+}
 
 export interface SearchMarketsOptions {
   /** Home team name to match in event/market titles */
@@ -24,6 +46,8 @@ export interface SearchMarketsOptions {
   away: string
   /** Scheduled game time — used to filter markets closing around this time */
   scheduled: Date
+
+  sport: string
   /** Only return active/open markets (default: true) */
   activeOnly?: boolean
   /** Max results (default: 100) */
@@ -95,7 +119,7 @@ export class KalshiAdapter extends Logs {
    * and scheduled time window.
    */
   async searchMarkets(options: SearchMarketsOptions): Promise<MarketWithPrices[]> {
-    const { home, away, scheduled, activeOnly = true, limit = 100 } = options;
+    const { home, away, scheduled, sport, activeOnly = true, limit = 200 } = options;
 
     // Use a ±24h window around the scheduled time to find relevant markets
     const windowMs = 24 * 60 * 60
@@ -104,52 +128,58 @@ export class KalshiAdapter extends Logs {
 
     this.log(Severity.INF, `Searching Kalshi markets for ${away} @ ${home}`)
 
-    // Fetch events with nested markets in the time window
-    const eventsResp = await this.events.getEvents(
-      limit,        // limit
-      undefined,    // cursor
-      true,         // withNestedMarkets
-      undefined,    // withMilestones
-      activeOnly ? 'open' as const : undefined,
-      undefined,    // seriesTicker
-      minCloseTs,   // minCloseTs
-    )
+    const tickers = sportToSeriesTicker(sport)
+
+    const matched: MarketWithPrices[] = []
 
     const homeLower = home.toLowerCase()
     const awayLower = away.toLowerCase()
 
-    const matched: MarketWithPrices[] = []
+    for (const t of tickers) {
+      this.log(Severity.DBG, `Getting Kalshi events for ticker: ${t}`)
 
-    for (const event of eventsResp.data.events) {
-      // Check if event title mentions either team
-      const eventTitle = (event.title ?? '').toLowerCase()
-      const eventSubTitle = (event.sub_title ?? '').toLowerCase()
-      const eventText = `${eventTitle} ${eventSubTitle}`
+      // Fetch events with nested markets in the time window
+      const eventsResp = await this.events.getEvents(
+        limit,        // limit
+        undefined,    // cursor
+        true,         // withNestedMarkets
+        undefined,    // withMilestones
+        activeOnly ? 'open' as const : undefined,
+        t,    // seriesTicker
+        minCloseTs,   // minCloseTs
+      )
 
-      const matchesHome = eventText.includes(homeLower)
-      const matchesAway = eventText.includes(awayLower)
+      for (const event of eventsResp.data.events) {
+        // Check if event title mentions either team
+        const eventTitle = (event.title ?? '').toLowerCase()
+        const eventSubTitle = (event.sub_title ?? '').toLowerCase()
+        const eventText = `${eventTitle} ${eventSubTitle}`
 
-      if (!matchesHome && !matchesAway) continue
+        const matchesHome = eventText.includes(homeLower)
+        const matchesAway = eventText.includes(awayLower)
 
-      // Process markets within this event
-      const markets = event.markets ?? []
-      for (const m of markets) {
-        // Filter by close time window
-        if (m.close_time) {
-          const closeTs = new Date(m.close_time).getTime() / 1000
-          if (closeTs < minCloseTs || closeTs > maxCloseTs) continue
+        if (!matchesHome && !matchesAway) continue
+
+        // Process markets within this event
+        const markets = event.markets ?? []
+        for (const m of markets) {
+          // Filter by close time window
+          if (m.close_time) {
+            const closeTs = new Date(m.close_time).getTime() / 1000
+            if (closeTs < minCloseTs || closeTs > maxCloseTs) continue
+          }
+
+          // Skip non-active markets if requested
+          if (activeOnly && m.status !== 'active') continue
+
+          matched.push(toMarketWithPrices(m))
         }
-
-        // Skip non-active markets if requested
-        if (activeOnly && m.status !== 'active') continue
-
-        matched.push(toMarketWithPrices(m))
       }
     }
 
     // If no matches from events, fall back to searching markets directly
     if (matched.length === 0) {
-      this.log(Severity.DBG, 'No event matches, falling back to market search')
+      this.log(Severity.INF, 'No event matches, falling back to market search')
 
       const marketsResp = await this.markets.getMarkets(
         limit,

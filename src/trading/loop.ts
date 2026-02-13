@@ -109,11 +109,10 @@ export class TradingLoop extends Logs {
 
     console.log(`Looking for markets: ${away} @ ${home}`)
 
-    const markets = await this.kalshi.searchMarkets({ home, away, scheduled })
+    const markets = await this.kalshi.searchMarkets({ home, away, scheduled, sport })
 
     if (markets.length === 0) {
       this.log(Severity.INF, `No Kalshi markets found for ${away} @ ${home}`)
-      console.log('No Kalshi markets found for this game.')
       return
     }
 
