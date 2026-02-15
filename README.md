@@ -7,7 +7,7 @@ from [Shipp.ai](https://docs.shipp.ai).
 
 > [!warning] This Application involves risking real money. Alph Bot is intended to be a starting point, and should be verified and tested for your usecase.
 
-> [!information] This repository is managed on [Gitlab](https://gitlab.com/outsharp/shipp/alph-bot). Issues & PR's can be opened from there.
+> [!info] This repository is managed on [Gitlab](https://gitlab.com/outsharp/shipp/alph-bot). Issues & PR's can be opened from there.
 
 ## Overview
 
