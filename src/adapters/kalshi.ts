@@ -103,6 +103,16 @@ export class KalshiAdapter extends Logs {
     this.portfolio = new kalshi.PortfolioApi(config, basePath);
   }
 
+  private cleanName(sport: string, name: string): string {
+    name = name.toLowerCase()
+
+    if (name.startsWith('ae larissa')) {
+      name = name.replace(/^AE /i, '')
+    }
+
+    return name
+  }
+
   /**
    * Search for markets related to a specific game.
    * Fetches open events with nested markets, then filters by team names
@@ -122,8 +132,8 @@ export class KalshiAdapter extends Logs {
 
     const matched: MarketWithPrices[] = []
 
-    const homeLower = home.toLowerCase()
-    const awayLower = away.toLowerCase()
+    const homeCleaned = this.cleanName(sport, home)
+    const awayCleaned = this.cleanName(sport, away)
 
     for (const t of tickers) {
       this.log(Severity.DBG, `Getting Kalshi events for ticker: ${t}`)
@@ -153,8 +163,8 @@ export class KalshiAdapter extends Logs {
         this.log(Severity.TRC, `Kalshi checking event title: ${event.title}`)
 
         if (
-          !homeLower.startsWith((eventHome ?? '').trim()) ||
-          !awayLower.startsWith((eventAway ?? '').trim())
+          !homeCleaned.startsWith((eventHome ?? '').trim()) ||
+          !awayCleaned.startsWith((eventAway ?? '').trim())
         ) {
           continue
         }
@@ -199,7 +209,7 @@ export class KalshiAdapter extends Logs {
 
       for (const m of marketsResp.data.markets) {
         const title = `${m.title} ${m.subtitle} ${m.yes_sub_title} ${m.no_sub_title}`.toLowerCase()
-        if (title.includes(homeLower) || title.includes(awayLower)) {
+        if (title.includes(homeCleaned) || title.includes(awayCleaned)) {
           matched.push(toMarketWithPrices(m))
         }
       }
