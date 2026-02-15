@@ -12,7 +12,7 @@ Initialized once in `Context` (`src/ctx.ts`) and shared across all classes:
 this.db = drizzle('file:' + dbFilename, { casing: 'snake_case' })
 ```
 
-The `file:` prefix is required by libsql. Default filename is `db.sqlite` (configurable via `--db-filename` or `AGENT_ALPHA_DB_FILENAME`).
+The `file:` prefix is required by libsql. Default filename is `db.sqlite` (configurable via `--db-filename` or `ALPH_BOT_DB_FILENAME`).
 
 ## Drizzle Configuration
 

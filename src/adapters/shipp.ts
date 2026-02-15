@@ -63,7 +63,7 @@ export class ShippAdapter extends Logs {
   async getSchedule(options: GetScheduleOptions): Promise<ShippScheduleResponse> {
     if (!this.apiKey) {
       this.log(Severity.ERR, 'Shipp API key not configured');
-      throw new Error('AGENT_ALPHA_SHIPP_API_KEY is required for Shipp integration');
+      throw new Error('ALPH_BOT_SHIPP_API_KEY is required for Shipp integration');
     }
 
     this.log(Severity.INF, `Fetching schedule for ${options.sport}`);

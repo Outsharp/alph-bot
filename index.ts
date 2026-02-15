@@ -18,14 +18,14 @@ async function main() {
     .scriptName('agent-alpha')
     .usage('$0 <cmd> [args]')
     .help()
-    .epilogue('All args can also be set via environment variables prefixed with AGENT_ALPHA_.\n' +
-      'For example, --ai-provider-api-key can be set as AGENT_ALPHA_AI_PROVIDER_API_KEY.\n\n' +
+    .epilogue('All args can also be set via environment variables prefixed with ALPH_BOT_.\n' +
+      'For example, --ai-provider-api-key can be set as ALPH_BOT_AI_PROVIDER_API_KEY.\n\n' +
       'Created by https://shipp.ai')
     .alias('help', 'h')
     .strictCommands()
     .recommendCommands()
     .version(pkg.version)
-    .env('AGENT_ALPHA')
+    .env('ALPH_BOT')
     .options({
       demo: {
         alias: 'd',

@@ -42,7 +42,7 @@ yarn test:watch
 ./index.ts available-games --sport NBA
 ```
 
-All CLI arguments can be set via environment variables with the `AGENT_ALPHA_` prefix (see `.env.example`).
+All CLI arguments can be set via environment variables with the `ALPH_BOT_` prefix (see `.env.example`).
 
 ## Architecture
 
@@ -75,7 +75,7 @@ Shared enums: `Confidence` (low/medium/high), `AiProvider` (anthropic), `Sport` 
 ## Important Patterns
 
 ### Config Validation Flow
-1. User provides options via CLI args or `AGENT_ALPHA_`-prefixed env vars
+1. User provides options via CLI args or `ALPH_BOT_`-prefixed env vars
 2. yargs parses and merges them
 3. `AgentAlpha` constructor creates `Context` (which parses `GlobalConfig` for DB filename)
 4. Command methods parse their specific config schema (e.g., `ValueBetConfig`)

@@ -1,11 +1,11 @@
-# Agent α
+# Alph Bot
 
 An intelligent, automated trading bot. 
 
 Trades on Prediction Markets using sport data
 from [Shipp.ai](https://docs.shipp.ai).
 
-> [!warning] This Application involves risking real money. Agent α is intended to be a starting point, and should be verified and tested for your usecase.
+> [!warning] This Application involves risking real money. Alph Bot is intended to be a starting point, and should be verified and tested for your usecase.
 
 ## Overview
 
