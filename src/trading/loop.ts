@@ -137,7 +137,6 @@ export class TradingLoop extends Logs {
 
         if (eventsResp.data.length === 0 && freshGame?.status === 'completed') {
           this.log(Severity.INF, 'Game completed, exiting loop')
-          console.log('Game completed. Exiting trading loop.')
           break
         }
 
