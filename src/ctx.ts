@@ -8,6 +8,6 @@ export class Context {
   constructor(public opts: unknown) {
     const dbFilename = 'file:' + GlobalConfig.parse(opts)["db-filename"]
 
-    this.db = drizzle(dbFilename)
+    this.db = drizzle(dbFilename, { casing: 'snake_case' })
   }
 }
