@@ -7,6 +7,8 @@ from [Shipp.ai](https://docs.shipp.ai).
 
 > [!warning] This Application involves risking real money. Alph Bot is intended to be a starting point, and should be verified and tested for your usecase.
 
+> [!information] This repository is managed on [Gitlab](https://gitlab.com/outsharp/shipp/alph-bot). Issues & PR's can be opened from there.
+
 ## Overview
 
 This bot analyzes live game events, calculates probabilities using Claude AI, identifies mispriced markets, 
@@ -15,6 +17,10 @@ and executes trades automatically.
 This is an early project, and as of now should only be used as a starting point to integrate [Shipp.ai](https://shipp.ai)
 
 If you're interested in a full application using this model, check out [Outsharp](https://apps.apple.com/us/app/outsharp/id6751448529)
+
+## How to Use
+
+If you're a human using claude code or agents to build for you, fork the project
 
 ### Key Features
 
