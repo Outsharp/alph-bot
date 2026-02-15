@@ -1,16 +1,4 @@
-import {
-  Configuration,
-  OrdersApi,
-  MarketApi,
-  EventsApi,
-  PortfolioApi,
-  type CreateOrderRequest,
-  type CreateOrderResponse,
-  type Market,
-  type Order,
-  type GetMarketsStatusEnum,
-  type EventData,
-} from 'kalshi-typescript';
+import * as kalshi from 'kalshi-typescript';
 import { Logs, Severity } from '../log.js';
 import type { Context } from '../ctx.js';
 import { GlobalConfig } from '../config.js';
@@ -91,26 +79,28 @@ export interface CreateOrderOptions {
 }
 
 export class KalshiAdapter extends Logs {
-  private readonly orders: OrdersApi;
-  private readonly markets: MarketApi;
-  private readonly events: EventsApi;
-  private readonly portfolio: PortfolioApi;
+  private readonly orders: kalshi.OrdersApi;
+  private readonly markets: kalshi.MarketApi;
+  private readonly events: kalshi.EventsApi;
+  private readonly portfolio: kalshi.PortfolioApi;
 
   constructor(protected ctx: Context, apiKeyId: string, privateKeyPath: string) {
     super(ctx)
 
     const basePath = GlobalConfig.parse(ctx.opts).demo ? DEMO_BASE : PROD_BASE
 
-    const config = new Configuration({
+    this.log(Severity.TRC, `Creating Kalshi Adapter basePath: ${basePath} apiKeyId: ${apiKeyId} privateKeyPath: ${privateKeyPath}`)
+
+    const config = new kalshi.Configuration({
       apiKey: apiKeyId,
       privateKeyPath: privateKeyPath,
       basePath: basePath,
     });
 
-    this.orders = new OrdersApi(config);
-    this.markets = new MarketApi(config);
-    this.events = new EventsApi(config);
-    this.portfolio = new PortfolioApi(config);
+    this.orders = new kalshi.OrdersApi(config, basePath);
+    this.markets = new kalshi.MarketApi(config, basePath);
+    this.events = new kalshi.EventsApi(config, basePath);
+    this.portfolio = new kalshi.PortfolioApi(config, basePath);
   }
 
   /**
@@ -204,7 +194,7 @@ export class KalshiAdapter extends Logs {
         minCloseTs,    // minCloseTs
         undefined,     // minSettledTs
         undefined,     // maxSettledTs
-        activeOnly ? 'open' as GetMarketsStatusEnum : undefined,
+        activeOnly ? 'open' as kalshi.GetMarketsStatusEnum : undefined,
       )
 
       for (const m of marketsResp.data.markets) {
@@ -222,13 +212,13 @@ export class KalshiAdapter extends Logs {
   /**
    * Create an order on Kalshi.
    */
-  async createOrder(options: CreateOrderOptions): Promise<Order> {
+  async createOrder(options: CreateOrderOptions): Promise<kalshi.Order> {
     this.log(Severity.INF,
       `Creating order: ${options.action} ${options.count} ${options.side} on ${options.ticker}` +
       (options.yesPrice ? ` @ ${options.yesPrice}c` : '')
     )
 
-    const request: CreateOrderRequest = {
+    const request: kalshi.CreateOrderRequest = {
       ticker: options.ticker,
       side: options.side,
       action: options.action,
@@ -288,13 +278,13 @@ export class KalshiAdapter extends Logs {
   /**
    * Get an existing order by ID.
    */
-  async getOrder(orderId: string): Promise<Order> {
+  async getOrder(orderId: string): Promise<kalshi.Order> {
     const resp = await this.orders.getOrder(orderId)
     return resp.data.order
   }
 }
 
-function toMarketWithPrices(m: Market): MarketWithPrices {
+function toMarketWithPrices(m: kalshi.Market): MarketWithPrices {
   return {
     ticker: m.ticker,
     eventTicker: m.event_ticker,
