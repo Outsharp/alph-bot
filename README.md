@@ -9,6 +9,9 @@ from [Shipp.ai](https://docs.shipp.ai).
 
 > [!note] This repository is managed on [Gitlab](https://gitlab.com/outsharp/shipp/alph-bot). Issues & PR's can be opened from there.
 
+[Issues](https://gitlab.com/outsharp/shipp/alph-bot/-/issues)
+[Merge Requests](https://gitlab.com/outsharp/shipp/alph-bot/-/merge_requests)
+
 ## Overview
 
 This bot analyzes live game events, calculates probabilities using Claude AI, identifies mispriced markets, 
