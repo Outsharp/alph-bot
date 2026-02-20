@@ -5,12 +5,8 @@ An intelligent, automated trading bot.
 Trades on Prediction Markets using sport data
 from [Shipp.ai](https://docs.shipp.ai).
 
-> [!warning] This Application involves risking real money. Alph Bot is intended to be a starting point, and should be verified and tested for your usecase.
-
-> [!note] This repository is managed on [Gitlab](https://gitlab.com/outsharp/shipp/alph-bot). Issues & PR's can be opened from there.
-
-[Issues](https://gitlab.com/outsharp/shipp/alph-bot/-/issues)
-[Merge Requests](https://gitlab.com/outsharp/shipp/alph-bot/-/merge_requests)
+> [!WARNING] 
+> This Application involves risking real money. Alph Bot is intended to be a starting point, and should be verified and tested for your usecase.
 
 ## Overview
 
@@ -86,4 +82,4 @@ yarn migrate
 
 Data Powered By
 
-![Shipp](https://platform.shipp.staging.shippyard-labs.com/logos/shipp-horizontal-dark.svg){height=96px}
+<img src="https://platform.shipp.ai/logos/shipp-horizontal-dark.svg" height="96px" width="auto">
