@@ -1,3 +1,5 @@
+![Logo](./logo.png)
+
 # Alph Bot
 
 An intelligent, automated trading bot. 
