@@ -31,6 +31,8 @@
   "scripts": {
     "migrate": "DB_url=\"$@\" yarn exec drizzle-kit push",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "skills": "yarn dlx skills add https://github.com/outsharp/shipp-skills --all -y",
+    "postinstall": "yarn skills"
   }
 }

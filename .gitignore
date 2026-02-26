@@ -30,3 +30,6 @@ config.yml
 *.sqlite-journal
 
 .DS_Store
+
+/.*/skills/
+/skills

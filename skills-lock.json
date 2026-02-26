@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "skills": {
+    "google-news": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "8ac0c81402e4a98db77f15bfc3a0b1516caf7ea216b1456a438c72ec797d2413"
+    },
+    "kalshi": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "bdec50622cffd34dd54e66c95c51fdf390e36d86a297ecadb9cd78da4f43cb2b"
+    },
+    "manifold": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "38ff68ea8e6bd024e3d113c24ff683df28f79f54394f3ab3eee641d3bb0a112a"
+    },
+    "metaculus": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "c7bc54f8875a0ea8682a8bb1f761dc0b25ed696630342139dddaab1a01fe70cd"
+    },
+    "openfootball": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "a817f4f8bbc26ad2c4096b4de9547ee2c027f312b8ba518ede00817771a1dd0d"
+    },
+    "polymarket": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "7e04063a0b9ada89ad6104e24a687bc662be8edbdfed945ca01e969c8b914e85"
+    },
+    "shipp": {
+      "source": "outsharp/shipp-skills",
+      "sourceType": "github",
+      "computedHash": "9081bd168ecc9329aa905662c6909c5ccd90ebee5909ab55af00075cee4ee051"
+    }
+  }
+}
