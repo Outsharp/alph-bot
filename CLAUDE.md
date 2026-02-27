@@ -53,6 +53,11 @@ Without shipp, you won't have access to live data as the game occurs
 ```
 Click `continue` from the `Welcome to Shipp` email.
 
+### Trade with Kalshi
+
+An API Key is required
+[Create an API Key](https://alph.bot/posts/kalshi-api-key/)
+
 ### Config
 
 All CLI arguments can be set via environment variables with the `ALPH_BOT_` prefix (see `.env.example`).
