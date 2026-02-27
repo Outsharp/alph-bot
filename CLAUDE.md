@@ -2,6 +2,8 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+**Always read [`SOUL.md`](./SOUL.md) at the start of every conversation before doing any work.**
+
 ## Project Overview
 
 Alph Bot is an automated trading bot for prediction markets (Kalshi) that uses real-time sports data from Shipp.ai and Claude AI for probability estimation. The bot analyzes live game events via a polling loop, identifies mispriced markets using AI-driven probability estimates, and executes trades with Kelly Criterion position sizing and multi-layered risk management.
@@ -86,9 +88,11 @@ Click `continue` from the `Welcome to Shipp` email.
 An API Key is required
 [Create an API Key](https://alph.bot/posts/kalshi-api-key/)
 
-### Config
+## Config
 
 All CLI arguments can be set via environment variables with the `ALPH_BOT_` prefix (see `.env.example`).
+
+Configure STRATEGY.md for steering the agent on outcomes and valuing plays / situations. Reference [Create Strategy](./create-strategy.md)
 
 ## Architecture
 

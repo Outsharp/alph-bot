@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+import { resolve } from 'node:path'
 import Anthropic from '@anthropic-ai/sdk'
 import type { ShippEvent } from '../shipp-types.js'
 import type { AiClient, AiClientOptions, MarketDescriptor } from './client.js'
@@ -13,7 +15,36 @@ const estimateProbabilityTool: Anthropic.Tool = {
   },
 }
 
-export const SYSTEM_PROMPT = `You are a sports analyst estimating probabilities for prediction market outcomes. You will be given live game events and a market question. Analyze the game state and provide your best probability estimate.
+/**
+ * Read a file from the project root, returning its contents or an empty string
+ * if the file does not exist.
+ */
+function readProjectFile(filename: string): string {
+  try {
+    return readFileSync(resolve(process.cwd(), filename), 'utf-8')
+  } catch {
+    return ''
+  }
+}
+
+/**
+ * Load SOUL.md and STRATEGY.md (falling back to STRATEGY.example.md) from the
+ * project root. These are prepended to every AI prompt so the model embodies
+ * the Alph identity and follows the active trading strategy.
+ */
+function loadContextFiles(): string {
+  const soul = readProjectFile('SOUL.md')
+  const strategy = readProjectFile('STRATEGY.md') || readProjectFile('STRATEGY.example.md')
+
+  const parts: string[] = []
+  if (soul) parts.push(soul.trim())
+  if (strategy) parts.push(strategy.trim())
+  return parts.length > 0 ? parts.join('\n\n---\n\n') + '\n\n---\n\n' : ''
+}
+
+const CONTEXT_PREFIX = loadContextFiles()
+
+export const SYSTEM_PROMPT = `${CONTEXT_PREFIX}You are a sports analyst estimating probabilities for prediction market outcomes. You will be given live game events and a market question. Analyze the game state and provide your best probability estimate.
 
 Be calibrated: use base rates, current score, time remaining, and momentum. Do not be overconfident. If you lack information to make a strong estimate, set confidence to "low".
 
