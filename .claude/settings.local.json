@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__acp__Write",
+      "mcp__acp__Edit",
+      "WebFetch(domain:docs.kalshi.com)",
+      "WebFetch(domain:docs.shipp.ai)",
+      "WebFetch(domain:shipp.ai)",
+      "WebFetch(domain:platform.shipp.ai)",
+      "WebFetch(domain:alph.bot)",
+      "Bash(yarn test)",
+      "Bash(yarn test:watch)",
+      "Bash(yarn migrate)",
+      "Bash(./index.ts --help)",
+      "Bash(./index.ts available-games*)",
+      "Bash(./index.ts create-account*)"
+    ]
+  }
+}
