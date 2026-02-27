@@ -43,6 +43,8 @@ yarn test:watch
 ```
 
 ### Enter Email for Free Shipp Account and Groq Tokens
+Without shipp, you won't have access to live data as the game occurs
+
 ```bash
 ./index.ts create-account --email user@shipp.ai
 
