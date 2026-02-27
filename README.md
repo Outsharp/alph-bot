@@ -21,8 +21,7 @@ If you're interested in a full application using this model, check out [Outsharp
 
 ## First-Time Humans
 
-* Sign up for Kalshi if you haven't already, https://kalshi.com/sign-up
-* [Create an API Key](https://alph.bot/posts/kalshi-api-key/)
+* [Sign up](https://kalshi.com/sign-up) to Kalshi and [Create an API Key](https://alph.bot/posts/kalshi-api-key/)
 * Sign up to [Shipp](https://shipp.ai) for 5,000 credits free a day!
 * Tell claude `Start running a game!`
 
@@ -54,7 +53,7 @@ If you're interested in a full application using this model, check out [Outsharp
 - API keys for:
   - [Shipp.ai](https://shipp.ai) - Real-time sports data
   - [Kalshi](https://kalshi.com) - Prediction market
-  - [Polymarket](https://polymarket.com) - Prediction market
+  - (Coming Soon) [Polymarket](https://polymarket.com) - Prediction market
   - [Anthropic](https://console.anthropic.com) - Claude AI
 
 ## Start Trading
@@ -62,7 +61,7 @@ If you're interested in a full application using this model, check out [Outsharp
 ```console
 # Clone repository
 git clone https://github.com/Outsharp/alph-bot.git
-cd agent-alpha
+cd alph-bot
 
 # Copy environment template
 cp .env.example .env

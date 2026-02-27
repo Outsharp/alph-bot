@@ -13,6 +13,20 @@ Detailed documentation for each subsystem lives in co-located `CLAUDE.md` files:
 - **`src/db/CLAUDE.md`** — Database schema, tables, ULID keys, Drizzle ORM conventions
 - **`tests/CLAUDE.md`** — Test infrastructure, helpers, fixtures, mocking patterns
 
+## First Run (New Users)
+
+Agents should facilitate every command on behalf of the user.
+Clear guidance and a simple experience are crucial to the user journey.
+
+1. `cp .env.example .env`
+2. `yarn` — install dependencies
+3. `yarn migrate` — create the database
+4. `./index.ts create-account --email <your-email>` — get a free Shipp API key
+5. Open the "Welcome to Shipp" email → click "continue" → copy API key into `.env` as `ALPH_BOT_SHIPP_API_KEY`
+6. `./index.ts available-games --sport NBA` — see what's live
+7. Get Kalshi API Key - [Setup guide](https://alph.bot/posts/kalshi-api-key/)
+7. `./index.ts value-bet --paper --game <GAME_ID>` — run in safe mode (no real money)
+
 ## Commands
 
 ### Development
@@ -42,7 +56,7 @@ yarn test:watch
 ./index.ts available-games --sport NBA
 ```
 
-### Enter Email for Free Shipp Account and Groq Tokens
+### Enter Email for Free Shipp Account
 Without shipp, you won't have access to live data as the game occurs
 
 ```bash
