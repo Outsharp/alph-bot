@@ -162,10 +162,10 @@ export class KalshiAdapter extends Logs {
         let eventHome: string | undefined
         let eventAway: string | undefined
 
-        if (options.sport == 'nba') {
-          ([eventAway, eventHome] = eventTitle.split('at'))
+        if (options.sport == 'NBA') {
+          ([eventAway, eventHome] = eventTitle.split(' at '))
         } else {
-          ([eventHome, eventAway] = eventTitle.split('vs'))
+          ([eventHome, eventAway] = eventTitle.split(' vs '))
         }
 
         this.log(Severity.TRC, `Kalshi checking event title: ${event.title}`)
