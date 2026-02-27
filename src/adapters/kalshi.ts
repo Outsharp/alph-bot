@@ -159,7 +159,15 @@ export class KalshiAdapter extends Logs {
 
         // if (!matchesHome || !matchesAway) continue
 
-        const [eventHome, eventAway] = eventTitle.split('vs')
+        let eventHome: string | undefined
+        let eventAway: string | undefined
+
+        if (options.sport == 'nba') {
+          ([eventAway, eventHome] = eventTitle.split('at'))
+        } else {
+          ([eventHome, eventAway] = eventTitle.split('vs'))
+        }
+
         this.log(Severity.TRC, `Kalshi checking event title: ${event.title}`)
 
         if (
