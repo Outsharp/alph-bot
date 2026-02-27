@@ -51,6 +51,9 @@ Without shipp, you won't have access to live data as the game occurs
 # Afterwards, open the email from shipp and click `continue`
 # copy the api key from the dashboard and save to .env
 ```
+Click `continue` from the `Welcome to Shipp` email.
+
+### Config
 
 All CLI arguments can be set via environment variables with the `ALPH_BOT_` prefix (see `.env.example`).
 
