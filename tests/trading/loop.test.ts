@@ -64,7 +64,7 @@ describe('TradingLoop', () => {
       return { connection_id: 'conn-1', data: [] }
     })
 
-    vi.mocked(deps.anthropic.estimateProbability).mockResolvedValue({
+    vi.mocked(deps.ai.estimateProbability).mockResolvedValue({
       yesProbability: 0.65,
       confidence: 'high',
       reasoning: 'test',
@@ -108,7 +108,7 @@ describe('TradingLoop', () => {
     })
 
     // AI returns prob ≈ market price → no edge
-    vi.mocked(deps.anthropic.estimateProbability).mockResolvedValue({
+    vi.mocked(deps.ai.estimateProbability).mockResolvedValue({
       yesProbability: 0.63, // yesEdge = 0.63-0.65 = -0.02, noEdge = 0.37-0.37 = 0
       confidence: 'high',
       reasoning: 'no edge',
@@ -232,7 +232,7 @@ describe('TradingLoop', () => {
     })
 
     // P(yes)=0.60, yesAsk=40c → yesEdge=0.20, noEdge=(0.40-0.62)=-0.22
-    vi.mocked(deps.anthropic.estimateProbability).mockResolvedValue({
+    vi.mocked(deps.ai.estimateProbability).mockResolvedValue({
       yesProbability: 0.60,
       confidence: 'high',
       reasoning: 'yes edge',
@@ -261,7 +261,7 @@ describe('TradingLoop', () => {
     })
 
     // P(yes)=0.25, yesAsk=70c → yesEdge=0.25-0.70=-0.45, noEdge=0.75-0.32=0.43
-    vi.mocked(deps.anthropic.estimateProbability).mockResolvedValue({
+    vi.mocked(deps.ai.estimateProbability).mockResolvedValue({
       yesProbability: 0.25,
       confidence: 'high',
       reasoning: 'no edge',

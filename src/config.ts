@@ -2,7 +2,7 @@ import * as z from 'zod'
 
 export const Confidence = z.enum(['low', 'medium', 'high'])
 
-export const AiProvider = z.enum(['anthropic'])
+export const AiProvider = z.enum(['anthropic', 'claude-cli'])
 
 export const Sport = z.enum(['NBA', 'NFL', 'NCAAFB', 'MLB', 'Soccer'])
 
@@ -24,7 +24,7 @@ export const ValueBetConfig = GlobalConfig.extend({
   // ai
   'ai-model': z.string().default('claude-opus-4-6'),
   'ai-provider': AiProvider.default('anthropic'),
-  'ai-provider-api-key': z.string(),
+  'ai-provider-api-key': z.string().optional(),
   'ai-model-temperature': z.number().min(0).max(2).default(0.2),
 
   // strategy
@@ -40,6 +40,16 @@ export const ValueBetConfig = GlobalConfig.extend({
   'max-daily-trades': z.number().int().min(0).default(50),
   'min-account-balance-usd': z.number().min(0).default(100),
   'poll-interval-ms': z.number().int().min(0).default(5000),
+}).superRefine((val, ctx) => {
+  if (val['ai-provider'] === 'anthropic' && !val['ai-provider-api-key']) {
+    ctx.addIssue({
+      code: z.ZodIssueCode.custom,
+      path: ['ai-provider-api-key'],
+      message:
+        'The "anthropic" provider requires an API key. ' +
+        'Pass --ai-provider-api-key or set ALPH_BOT_AI_PROVIDER_API_KEY.',
+    })
+  }
 })
 
 export const AvailableGamesConfig = GlobalConfig.extend({

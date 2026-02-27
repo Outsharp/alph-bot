@@ -88,11 +88,7 @@ The prompt uses **forced tool use** — a custom tool called `estimate_probabili
 
 The system prompt instructs Claude to act as a calibrated sports analyst: use base rates, current score, time remaining, and momentum. It explicitly warns against overconfidence and instructs low confidence when information is insufficient.
 
-### Configuration
-
-- Default model: `claude-opus-4-6`
-- Default temperature: `0.2` (low for more deterministic estimates)
-- Both are configurable via `--ai-model` and `--ai-model-temperature`
+The system prompt and user-message builder are exported from `anthropic.ts` (`SYSTEM_PROMPT`, `buildUserMessage()`) so other clients can reuse them.
 
 ### Output
 
@@ -101,3 +97,87 @@ Returns a `ProbabilityEstimate` object. The trading loop uses `yesProbability` t
 - NO edge = `(1 - yesProbability) - (noAsk / 100)`
 
 The side with more positive edge (if any) is selected for trading.
+
+## AI Module Architecture (`ai/`)
+
+The AI subsystem lives in `src/adapters/ai/` and follows a **client ↔ adapter** pattern that makes providers plug-and-play.
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `client.ts` | `AiClient` interface, `ProbabilityEstimate`, `MarketDescriptor`, `AiClientOptions` types |
+| `ai.ts` | `AiAdapter` facade (extends `Logs`), `createClient()` factory, `AiAdapterOptions` type |
+| `anthropic.ts` | `AnthropicClient` — implements `AiClient` via `@anthropic-ai/sdk` (requires API key) |
+| `claude.ts` | `ClaudeCliClient` — implements `AiClient` by shelling out to the `claude` CLI (no API key) |
+| `config.ts` | `AiProviderEnum` Zod schema, `AiConfig` with cross-field refinement |
+| `index.ts` | Barrel re-exports for the module |
+
+### `AiClient` Interface (`client.ts`)
+
+The contract every AI provider must implement:
+
+```typescript
+interface AiClient {
+  readonly name: string
+  estimateProbability(
+    sport: string,
+    gameId: string,
+    events: ShippEvent[],
+    market: MarketDescriptor,
+  ): Promise<ProbabilityEstimate>
+}
+```
+
+Clients are **stateless** and **do not extend `Logs`** — they are pure transport wrappers. Logging and safety clamping are handled by the `AiAdapter` facade that wraps them.
+
+### `AiAdapter` Facade (`ai.ts`)
+
+The high-level class consumed by the trading loop. It:
+
+1. Wraps any `AiClient` implementation
+2. Extends `Logs` for structured logging (stdout + DB)
+3. Applies belt-and-suspenders probability clamping to `[0, 1]`
+4. Exposes `AiAdapter.create(ctx, opts)` — an async factory that picks the right client via `createClient()`
+
+The trading loop never touches `AiClient` directly; it always goes through `AiAdapter`.
+
+### `createClient()` Factory (`ai.ts`)
+
+Maps `AiProvider` → `AiClient`:
+
+| Provider | Client | API Key Required? |
+|----------|--------|-------------------|
+| `anthropic` | `AnthropicClient` | **Yes** — `--ai-provider-api-key` or `ALPH_BOT_AI_PROVIDER_API_KEY` |
+| `claude-cli` | `ClaudeCliClient` | **No** — uses the CLI's own auth (`claude auth login`) |
+
+For `claude-cli`, the factory calls `assertClaudeCliReady()` before constructing the client, which checks that the `claude` binary is on `PATH` and authenticated.
+
+### `AnthropicClient` (`anthropic.ts`)
+
+Uses the `@anthropic-ai/sdk` Messages API with **forced tool use** (`tool_choice: { type: 'tool', name: 'estimate_probability' }`) to guarantee structured output. Exports `SYSTEM_PROMPT` and `buildUserMessage()` so other clients can reuse the same prompt structure.
+
+### `ClaudeCliClient` (`claude.ts`)
+
+Shells out to the locally installed `claude` CLI via `node:child_process.execFile`. Uses `--print --output-format text --model <model> --prompt <prompt>`. The prompt asks for a raw JSON response, which is parsed with fallback handling for markdown fences and embedded JSON.
+
+`assertClaudeCliReady()` performs two pre-flight checks:
+1. `claude --version` — is the binary installed?
+2. `claude auth status` — is the user authenticated?
+
+### Configuration
+
+- **`--ai-provider`**: `anthropic` (default) or `claude-cli`
+- **`--ai-model`**: Model name passed to the provider (default: `claude-opus-4-6`)
+- **`--ai-model-temperature`**: Sampling temperature (default: `0.2`)
+- **`--ai-provider-api-key`**: Required for `anthropic`, ignored for `claude-cli`
+
+Cross-field validation in `ValueBetConfig` (via Zod `.superRefine()`) ensures `anthropic` always has an API key while `claude-cli` does not require one.
+
+### Adding a New Provider
+
+1. Create `src/adapters/ai/my-provider.ts` with a class implementing `AiClient`
+2. Add the provider name to the `AiProvider` union in `ai.ts` and the Zod enum in `config.ts`
+3. Add a `case` in `createClient()` in `ai.ts`
+4. If the provider needs an API key, add validation in the `.superRefine()` block in `src/config.ts`
+5. Add the choice to `--ai-provider` in `index.ts` CLI options

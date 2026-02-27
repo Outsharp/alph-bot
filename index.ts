@@ -78,15 +78,14 @@ async function main() {
           type: 'string'
         },
         'ai-provider': {
-          describe: 'provider for AI services. Right now, only anthropic',
+          describe: 'AI provider/transport. "anthropic" uses the API SDK (requires --ai-provider-api-key). "claude-cli" shells out to the locally installed `claude` CLI (no API key needed).',
           default: 'anthropic',
           type: 'string',
-          choices: ['anthropic']
+          choices: ['anthropic', 'claude-cli']
         },
         'ai-provider-api-key': {
-          describe: 'API Key for the AI Provider',
+          describe: 'API Key for the AI Provider (required for "anthropic", ignored for "claude-cli")',
           type: 'string',
-          required: true
         },
         'ai-model-temperature': {
           describe: 'temperature setting for the model',

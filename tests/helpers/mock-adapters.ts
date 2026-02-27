@@ -1,7 +1,7 @@
 import { vi } from 'vitest'
 import type { KalshiAdapter } from '../../src/adapters/kalshi.js'
 import type { ShippAdapter } from '../../src/adapters/shipp.js'
-import type { AnthropicAdapter } from '../../src/adapters/anthropic.js'
+import type { AiAdapter } from '../../src/adapters/ai/ai.js'
 import type { RiskManager } from '../../src/trading/risk-manager.js'
 import type { TradingDeps } from '../../src/trading/loop.js'
 
@@ -29,15 +29,16 @@ export function mockShipp() {
   } as unknown as ShippAdapter
 }
 
-export function mockAnthropic() {
+export function mockAi() {
   return {
     estimateProbability: vi.fn().mockResolvedValue({
       yesProbability: 0.65,
       confidence: 'high' as const,
       reasoning: 'test reasoning',
     }),
+    providerName: 'mock',
     log: vi.fn(),
-  } as unknown as AnthropicAdapter
+  } as unknown as AiAdapter
 }
 
 export function mockRiskManager() {
@@ -69,7 +70,7 @@ export function makeDeps(overrides?: Partial<TradingDeps>): TradingDeps {
   return {
     shipp: mockShipp(),
     kalshi: mockKalshi(),
-    anthropic: mockAnthropic(),
+    ai: mockAi(),
     riskManager: mockRiskManager(),
     ...overrides,
   }

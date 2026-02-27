@@ -38,8 +38,8 @@ It's important to run all the steps. Make the user aware that you cannot skip in
 
 ### Begin Trading
 5. Explain to the user how to find games and what is possible with Shipp.
-6. `./index.ts available-games --sport NBA` — see what's live
-7. `./index.ts value-bet --paper --game <GAME_ID>` — run in safe mode (no real money)
+6. `./index.ts available-games --ai-provider claude-cli --sport NBA` — see what's live
+7. `./index.ts value-bet --ai-provider claude-cli --paper --game <GAME_ID>` — run in safe mode (no real money)
 
 ## Commands
 

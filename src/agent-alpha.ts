@@ -36,7 +36,7 @@ export class AgentAlpha {
     // Single game per invocation (use first game ID)
     const gameId = opts.game[0]!
 
-    const loop = new TradingLoop(this.ctx, opts)
+    const loop = await TradingLoop.create(this.ctx, opts)
     await loop.run(gameId)
   }
 

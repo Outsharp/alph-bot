@@ -5,48 +5,54 @@ import { Logs, Severity } from '../log.js'
 import { games, orders } from '../db/schema.js'
 import { ShippAdapter } from '../adapters/shipp.js'
 import { KalshiAdapter, type MarketWithPrices } from '../adapters/kalshi.js'
-import { AnthropicAdapter, type ProbabilityEstimate } from '../adapters/anthropic.js'
+import { AiAdapter } from '../adapters/ai/ai.js'
+import type { ProbabilityEstimate } from '../adapters/ai/client.js'
 import { RiskManager, type TradingStats } from './risk-manager.js'
 import type { ShippEvent } from '../adapters/shipp-types.js'
 
 export interface TradingDeps {
   shipp: ShippAdapter
   kalshi: KalshiAdapter
-  anthropic: AnthropicAdapter
+  ai: AiAdapter
   riskManager: RiskManager
 }
 
 export class TradingLoop extends Logs {
   private readonly shipp: ShippAdapter
   private readonly kalshi: KalshiAdapter
-  private readonly anthropic: AnthropicAdapter
+  private readonly ai: AiAdapter
   private readonly riskManager: RiskManager
   private readonly config: ValueBetConfig
 
-  constructor(ctx: Context, config: ValueBetConfig, deps?: TradingDeps) {
+  constructor(ctx: Context, config: ValueBetConfig, deps: TradingDeps) {
     super(ctx)
     this.config = config
 
-    if (deps) {
-      this.shipp = deps.shipp
-      this.kalshi = deps.kalshi
-      this.anthropic = deps.anthropic
-      this.riskManager = deps.riskManager
-    } else {
-      this.shipp = new ShippAdapter(ctx, config['shipp-api-key'])
-      this.kalshi = new KalshiAdapter(
-        ctx,
-        config['kalshi-api-key-id'] ?? '',
-        config['kalshi-private-key-path'] ?? '',
-      )
-      this.anthropic = new AnthropicAdapter(
-        ctx,
-        config['ai-provider-api-key'],
-        config['ai-model'],
-        config['ai-model-temperature'],
-      )
-      this.riskManager = new RiskManager(ctx, config, this.kalshi)
-    }
+    this.shipp = deps.shipp
+    this.kalshi = deps.kalshi
+    this.ai = deps.ai
+    this.riskManager = deps.riskManager
+  }
+
+  /**
+   * Convenience factory that builds default deps (including async AI adapter creation).
+   */
+  static async create(ctx: Context, config: ValueBetConfig): Promise<TradingLoop> {
+    const shipp = new ShippAdapter(ctx, config['shipp-api-key'])
+    const kalshi = new KalshiAdapter(
+      ctx,
+      config['kalshi-api-key-id'] ?? '',
+      config['kalshi-private-key-path'] ?? '',
+    )
+    const ai = await AiAdapter.create(ctx, {
+      provider: config['ai-provider'],
+      model: config['ai-model'],
+      temperature: config['ai-model-temperature'],
+      apiKey: config['ai-provider-api-key'],
+    })
+    const riskManager = new RiskManager(ctx, config, kalshi)
+
+    return new TradingLoop(ctx, config, { shipp, kalshi, ai, riskManager })
   }
 
   async run(gameId: string, signal?: AbortSignal): Promise<void> {
@@ -187,7 +193,7 @@ export class TradingLoop extends Logs {
     if (fresh.status !== 'active') return
 
     // Get AI estimate
-    const estimate = await this.anthropic.estimateProbability(
+    const estimate = await this.ai.estimateProbability(
       sport,
       gameId,
       allEvents,
