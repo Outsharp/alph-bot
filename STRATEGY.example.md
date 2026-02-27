@@ -10,48 +10,10 @@ version: 1
 
 # STRATEGY.md — Kalshi NBA Value Hunter
 
-Hunt mispricings on Kalshi's NBA markets. Game outcomes, spreads, and player props. Be first to act when the market is wrong.
-
-## Tools & Skills
-
-### Data Feeds
-- `shipp/nba/play_by_play` — live game events. ~250ms latency. Fastest signal for in-game momentum detection.
-- `shipp/nba/odds` — real-time lines across sportsbooks. Detect sharp money and line moves before Kalshi adjusts.
-- `shipp/nba/injuries` — player status changes as announced. Highest-impact signal for pre-game and player prop markets.
-- `shipp/nba/standings` — team records, streaks, rest days, schedule context. Pre-game pattern matching.
-- `shipp/nba/player_stats` — season averages, recent performance, usage rates. Essential for player prop valuation.
-
-### Execution
-- `kalshi/api` — place, manage, and exit positions on Kalshi event contracts.
-- Kalshi contracts are binary: settle at $1.00 (yes) or $0.00 (no). You buy at market price, profit is $1.00 minus your entry.
-- Kalshi supports limit orders. Use them. Market orders on thin books get bad fills.
-- Fee schedule applies per contract — factor fees into edge calculations.
-
 ### Analysis
 - Conviction model defined in this file.
 - Player prop fair value model: compare Shipp player stat projections against Kalshi contract prices.
 - Closing line value tracker: log your entry price versus final pre-game price to measure if you're consistently beating the close.
-
-## Risk & Bankroll Management
-
-- Bankroll: defined in config
-- Unit: 1% of bankroll
-- Sizing: fractional Kelly at 0.25x. Kalshi markets are newer and less liquid than traditional books — size conservatively until you have data on your edge.
-- Max single position: 3 units (50 contracts max per market to avoid liquidity issues)
-- Max total exposure: 15 units across all open positions
-- Max exposure per game: 8 units (don't overconcentrate on a single event)
-- Drawdown breaker: pause new positions if bankroll drops 10% in a session
-- Minimum conviction to surface: 0.55
-- Minimum conviction to act: 0.65
-- No auto-execute in vanilla. All opportunities surfaced to user for confirmation.
-- Always check bid-ask spread before entering. If spread > $0.08, reduce size or use limit orders only.
-
-## Market & Asset
-
-- Market: Kalshi (CFTC-regulated prediction market exchange)
-- Asset: NBA game outcomes, spreads, totals, and player props (points, rebounds, assists, three-pointers)
-- Timeframe: pre-game through final whistle. Live trading available during games.
-- Settlement: contracts settle at $1.00 or $0.00 based on official NBA stats.
 
 ### Kalshi-Specific Characteristics
 
