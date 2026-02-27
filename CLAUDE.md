@@ -20,6 +20,10 @@ Clear guidance and a simple experience are crucial to the user journey.
 Before running, show the user what the steps are and provide progress
 as a stepped progress bar with 3 steps. 
 
+Only show paper & live mode options.
+
+Make sure every step is complete before moving on to the next.
+
 It's important to run all the steps. Make the user aware that you cannot skip instructions.
 
 ### install dependencies
