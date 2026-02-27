@@ -81,9 +81,17 @@ yarn migrate
 ./index.ts value-bet -d --game 01KHA58Y81SG3RQD3HZ4X31NYR
 ```
 
+## Strategy
+
+The bot's behavior is driven by a `STRATEGY.md` file you author. Your strategy defines the edge hypothesis, signals, conviction model, and risk parameters — the soul stays the same, the strategy evolves.
+
+An agent will help you write it. Just say: `Help me write a strategy` or follow [`create-strategy.md`](./create-strategy.md).
+
+A well-crafted strategy is the difference between noise and alpha.
+
 ## Kalshi Demo Account
 You can create a [Demo Account](https://help.kalshi.com/account/demo-account)
-on Kalshi to the integration. Recommended before trading. 
+on Kalshi to the integration. Recommended before trading.
 
 Data Powered By
 
