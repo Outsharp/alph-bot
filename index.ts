@@ -152,5 +152,12 @@ async function main() {
         choices: ['NBA', 'NFL', 'NCAAFB', 'MLB', 'Soccer']
       }
     }, (argv) => new AgentAlpha(argv).availableGames())
+    .command('create-account', 'Create a Shipp Account for up to 5,000 free credits / day', {
+      'email': {
+        describe: 'User Email',
+        type: 'string',
+        required: true,
+      }
+    }, (argv) => new AgentAlpha(argv).createAccount())
     .parse(hideBin(process.argv))
 }

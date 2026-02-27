@@ -46,6 +46,10 @@ export const AvailableGamesConfig = GlobalConfig.extend({
   sport: Sport.default('NBA'),
 })
 
+export const CreateAccountConfig = GlobalConfig.extend({
+  email: z.email()
+})
+
 export type GlobalConfig = z.infer<typeof GlobalConfig>
 export type ValueBetConfig = z.infer<typeof ValueBetConfig>
 export type AvailableGamesConfig = z.infer<typeof AvailableGamesConfig>

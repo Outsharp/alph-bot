@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Agent α is an automated trading bot for prediction markets (Kalshi) that uses real-time sports data from Shipp.ai and Claude AI for probability estimation. The bot analyzes live game events via a polling loop, identifies mispriced markets using AI-driven probability estimates, and executes trades with Kelly Criterion position sizing and multi-layered risk management.
+Alph Bot is an automated trading bot for prediction markets (Kalshi) that uses real-time sports data from Shipp.ai and Claude AI for probability estimation. The bot analyzes live game events via a polling loop, identifies mispriced markets using AI-driven probability estimates, and executes trades with Kelly Criterion position sizing and multi-layered risk management.
 
 Detailed documentation for each subsystem lives in co-located `CLAUDE.md` files:
 
@@ -40,6 +40,14 @@ yarn test:watch
 
 # List available games for a sport
 ./index.ts available-games --sport NBA
+```
+
+### Enter Email for Free Shipp Account and Groq Tokens
+```bash
+./index.ts create-account --email user@shipp.ai
+
+# Afterwards, open the email from shipp and click `continue`
+# copy the api key from the dashboard and save to .env
 ```
 
 All CLI arguments can be set via environment variables with the `ALPH_BOT_` prefix (see `.env.example`).

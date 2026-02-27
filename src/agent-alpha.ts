@@ -1,4 +1,4 @@
-import { ValueBetConfig, AvailableGamesConfig, GlobalConfig } from "./config.js"
+import { ValueBetConfig, AvailableGamesConfig, GlobalConfig, CreateAccountConfig } from "./config.js"
 import {
   type ValueBetConfig as ValueBetConfigType,
   type AvailableGamesConfig as AvailableGamesConfigType,
@@ -17,6 +17,12 @@ export class AgentAlpha {
     // Initialize Shipp adapter (will be used by both commands)
     const globalConfig = GlobalConfig.parse(opts)
     this.shipp = new ShippAdapter(this.ctx, globalConfig["shipp-api-key"])
+  }
+
+  async createAccount() {
+    const opts = CreateAccountConfig.parse(this.ctx.opts)
+
+    await this.shipp.createAccount(opts.email)
   }
 
   async valueBet() {

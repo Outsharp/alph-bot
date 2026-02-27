@@ -55,6 +55,10 @@ export class ShippAdapter extends Logs {
     );
   }
 
+  async createAccount(email: string) {
+    await this.client.post('/account/create', { email })
+  }
+
   /**
    * Get schedule for a sport (one-off lookup, no connection needed)
    * Automatically upserts games to database with 'scheduled' status

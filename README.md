@@ -19,9 +19,12 @@ This is an early project, and as of now should only be used as a starting point 
 
 If you're interested in a full application using this model, check out [Outsharp](https://apps.apple.com/us/app/outsharp/id6751448529)
 
-## How to Use
+## First-Time Humans
 
-If you're a human using claude code or agents to build for you, fork the project
+* Sign up for Kalshi if you haven't already, https://kalshi.com/sign-up
+* [Create an API Key](https://alph.bot/posts/kalshi-api-key/)
+* Sign up to [Shipp](https://shipp.ai) for 5,000 credits free a day!
+* Tell claude `Start running a game!`
 
 ### Key Features
 
@@ -54,11 +57,7 @@ If you're a human using claude code or agents to build for you, fork the project
   - [Polymarket](https://polymarket.com) - Prediction market
   - [Anthropic](https://console.anthropic.com) - Claude AI
 
-## Kalshi Demo Account
-You can create a [Demo Account](https://help.kalshi.com/account/demo-account)
-on Kalshi to the integration. Recommended before trading. 
-
-### Start Trading
+## Start Trading
 
 ```console
 # Clone repository
@@ -72,6 +71,7 @@ cp .env.example .env
 # Don't need all, but keep secrets here
 vim .env
 
+yarn
 yarn migrate
 
 ./index.ts available-games --sport NBA
@@ -81,6 +81,10 @@ yarn migrate
 
 ./index.ts value-bet -d --game 01KHA58Y81SG3RQD3HZ4X31NYR
 ```
+
+## Kalshi Demo Account
+You can create a [Demo Account](https://help.kalshi.com/account/demo-account)
+on Kalshi to the integration. Recommended before trading. 
 
 Data Powered By
 
