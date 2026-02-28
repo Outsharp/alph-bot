@@ -93,3 +93,22 @@ export const connections = sqliteTable("connections", {
   lastRunAt: int("last_run_at"),
   lastEventId: text("last_event_id"), // Track last event ULID for incremental polling
 });
+
+export const x402Payments = sqliteTable("x402_payments", {
+  id: text().$defaultFn(() => id128.Ulid.generate().toCanonical()).primaryKey(),
+
+  url: text().notNull(),
+  method: text().notNull(),
+  amount: text().notNull(), // payment amount as string (wei/atomic units)
+  payTo: text("pay_to").notNull(),
+  fromAddress: text("from_address").notNull(),
+  nonce: text().notNull(),
+  signature: text().notNull(),
+
+  status: text().notNull(), // 'pending' | 'settled' | 'failed'
+  httpStatus: int("http_status"),
+  errorMessage: text("error_message"),
+
+  createdAt: int("created_at").notNull().$defaultFn(() => Date.now()),
+  settledAt: int("settled_at"),
+});
