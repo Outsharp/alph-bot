@@ -158,5 +158,41 @@ async function main() {
         required: true,
       }
     }, (argv) => new AgentAlpha(argv).createAccount())
+    .command('x402-setup', 'Generate session EOA and fund via MetaMask Mobile', {
+      'x402-funding-amount': {
+        describe: 'Amount of USDC to fund the session EOA',
+        type: 'number',
+        default: 5,
+      }
+    }, (argv) => new AgentAlpha(argv).x402Setup())
+    .command('x402-pay', 'Make an x402 payment request', {
+      'x402-session-key': {
+        describe: 'Session EOA private key (hex)',
+        type: 'string',
+        required: true,
+      },
+      'x402-url': {
+        describe: 'URL to send the x402 request to',
+        type: 'string',
+        required: true,
+      },
+      'x402-method': {
+        describe: 'HTTP method',
+        type: 'string',
+        default: 'GET',
+        choices: ['GET', 'POST', 'PUT', 'DELETE'],
+      },
+      'x402-body': {
+        describe: 'Request body (JSON string)',
+        type: 'string',
+      }
+    }, (argv) => new AgentAlpha(argv).x402Pay())
+    .command('x402-balance', 'Check session EOA USDC balance on Base', {
+      'x402-session-key': {
+        describe: 'Session EOA private key (hex)',
+        type: 'string',
+        required: true,
+      }
+    }, (argv) => new AgentAlpha(argv).x402Balance())
     .parse(hideBin(process.argv))
 }

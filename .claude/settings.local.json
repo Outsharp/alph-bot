@@ -16,7 +16,8 @@
       "Bash(./index.ts create-account*)",
       "WebFetch(domain:docs.cdp.coinbase.com)",
       "WebFetch(domain:build.avax.network)",
-      "WebFetch(domain:docs.metamask.io)"
+      "WebFetch(domain:docs.metamask.io)",
+      "WebFetch(domain:www.x402.org)"
     ]
   }
 }

@@ -1,7 +1,10 @@
-import { ValueBetConfig, AvailableGamesConfig, GlobalConfig, CreateAccountConfig } from "./config.js"
+import { ValueBetConfig, AvailableGamesConfig, GlobalConfig, CreateAccountConfig, X402SetupConfig, X402PayConfig, X402BalanceConfig } from "./config.js"
 import {
   type ValueBetConfig as ValueBetConfigType,
   type AvailableGamesConfig as AvailableGamesConfigType,
+  type X402SetupConfig as X402SetupConfigType,
+  type X402PayConfig as X402PayConfigType,
+  type X402BalanceConfig as X402BalanceConfigType,
 } from "./config.js"
 import { Context } from "./ctx.js"
 import { ShippAdapter } from "./adapters/shipp.js"
@@ -79,5 +82,34 @@ export class AgentAlpha {
 
     console.log(`Total: ${activeGames.length} games`)
     console.log('─'.repeat(80))
+  }
+
+  async x402Setup() {
+    const opts: X402SetupConfigType = X402SetupConfig.parse(this.ctx.opts)
+    const { X402Setup } = await import('./adapters/x402-setup.js')
+    const setup = new X402Setup(this.ctx)
+    await setup.run(opts['x402-funding-amount'])
+  }
+
+  async x402Pay() {
+    const opts: X402PayConfigType = X402PayConfig.parse(this.ctx.opts)
+    const { X402Adapter } = await import('./adapters/x402.js')
+    const adapter = new X402Adapter(this.ctx)
+    const result = await adapter.pay(
+      opts['x402-session-key'] as `0x${string}`,
+      opts['x402-url'],
+      opts['x402-method'],
+      opts['x402-body'],
+    )
+    console.log(`\nHTTP ${result.status}`)
+    console.log(JSON.stringify(result.data, null, 2))
+  }
+
+  async x402Balance() {
+    const opts: X402BalanceConfigType = X402BalanceConfig.parse(this.ctx.opts)
+    const { X402Adapter } = await import('./adapters/x402.js')
+    const adapter = new X402Adapter(this.ctx)
+    const { formatted } = await adapter.getBalance(opts['x402-session-key'] as `0x${string}`)
+    console.log(`\nUSDC Balance on Base: ${formatted}`)
   }
 }

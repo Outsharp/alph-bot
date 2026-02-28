@@ -60,6 +60,26 @@ export const CreateAccountConfig = GlobalConfig.extend({
   email: z.email()
 })
 
+export const X402HttpMethod = z.enum(['GET', 'POST', 'PUT', 'DELETE'])
+
+export const X402SetupConfig = GlobalConfig.extend({
+  'x402-funding-amount': z.number().min(0).default(5),
+})
+
+export const X402PayConfig = GlobalConfig.extend({
+  'x402-session-key': z.string(),
+  'x402-url': z.string().url(),
+  'x402-method': X402HttpMethod.default('GET'),
+  'x402-body': z.string().optional(),
+})
+
+export const X402BalanceConfig = GlobalConfig.extend({
+  'x402-session-key': z.string(),
+})
+
 export type GlobalConfig = z.infer<typeof GlobalConfig>
 export type ValueBetConfig = z.infer<typeof ValueBetConfig>
 export type AvailableGamesConfig = z.infer<typeof AvailableGamesConfig>
+export type X402SetupConfig = z.infer<typeof X402SetupConfig>
+export type X402PayConfig = z.infer<typeof X402PayConfig>
+export type X402BalanceConfig = z.infer<typeof X402BalanceConfig>
