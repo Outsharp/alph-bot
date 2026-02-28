@@ -35,6 +35,11 @@
       "source": "outsharp/shipp-skills",
       "sourceType": "github",
       "computedHash": "9081bd168ecc9329aa905662c6909c5ccd90ebee5909ab55af00075cee4ee051"
+    },
+    "x402": {
+      "source": "coinbase/agentic-wallet-skills",
+      "sourceType": "github",
+      "computedHash": "022ec3599eb4f15145749d058b7402558fcce4e10c44389f21d3132e5e364304"
     }
   }
 }
