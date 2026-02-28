@@ -1,6 +1,6 @@
 import { drizzle } from 'drizzle-orm/libsql'
 import { sql } from 'drizzle-orm'
-import { games, orders } from '../../src/db/schema.js'
+import { games, orders, x402Payments } from '../../src/db/schema.js'
 import type { Context } from '../../src/ctx.js'
 import id128 from 'id128'
 
@@ -77,6 +77,22 @@ export async function createTestContext(overrides?: Partial<{ demo: boolean; pap
     created_at INTEGER NOT NULL,
     last_run_at INTEGER,
     last_event_id TEXT
+  )`)
+
+  await db.run(sql`CREATE TABLE IF NOT EXISTS x402_payments (
+    id TEXT PRIMARY KEY,
+    url TEXT NOT NULL,
+    method TEXT NOT NULL,
+    amount TEXT NOT NULL,
+    pay_to TEXT NOT NULL,
+    from_address TEXT NOT NULL,
+    nonce TEXT NOT NULL,
+    signature TEXT NOT NULL,
+    status TEXT NOT NULL,
+    http_status INTEGER,
+    error_message TEXT,
+    created_at INTEGER NOT NULL,
+    settled_at INTEGER
   )`)
 
   // Construct a Context-like object without going through GlobalConfig.parse
