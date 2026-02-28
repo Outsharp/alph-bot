@@ -13,7 +13,10 @@
       "Bash(yarn migrate)",
       "Bash(./index.ts --help)",
       "Bash(./index.ts available-games*)",
-      "Bash(./index.ts create-account*)"
+      "Bash(./index.ts create-account*)",
+      "WebFetch(domain:docs.cdp.coinbase.com)",
+      "WebFetch(domain:build.avax.network)",
+      "WebFetch(domain:docs.metamask.io)"
     ]
   }
 }
