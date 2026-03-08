@@ -63,13 +63,13 @@ Multi-check trade gate that approves or rejects every trade before execution. Al
 
 Receives a `TradeRequest` and runs these checks in order. Any failure short-circuits with a rejection:
 
-1. **Edge threshold** — `(estimatedProbability - marketPrice) * 100` must be ≥ `min-edge-pct` (default: 5%)
+1. **Edge threshold** — `(estimatedProbability - marketPrice) * 100` must be ≥ `min-edge-pct` (default: 3%)
 2. **Confidence threshold** — AI confidence (`low`/`medium`/`high`) must meet or exceed `min-confidence` (default: `medium`)
-3. **Balance floor** — Kalshi account balance must be ≥ `min-account-balance-usd` (default: $100)
-4. **Daily trade count** — Today's trade count must be < `max-daily-trades` (default: 50)
-5. **Daily loss limit** — Today's realized P&L must not exceed `max-daily-loss-usd` (default: $500)
-6. **Total exposure limit** — Sum of all open order sizes must be < `max-total-exposure-usd` (default: $10,000)
-7. **Single-market concentration** — Exposure in this specific market as a percentage of total exposure must be < `max-single-market-percent` (default: 20%)
+3. **Balance floor** — Kalshi account balance must be ≥ `min-account-balance-usd` (default: $50)
+4. **Daily trade count** — Today's trade count must be < `max-daily-trades` (default: 100)
+5. **Daily loss limit** — Today's realized P&L must not exceed `max-daily-loss-usd` (default: $1,000)
+6. **Total exposure limit** — Sum of all open order sizes must be < `max-total-exposure-usd` (default: $15,000)
+7. **Single-market concentration** — Exposure in this specific market as a percentage of total exposure must be < `max-single-market-percent` (default: 30%)
 
 ### Kelly Criterion Position Sizing
 
@@ -108,13 +108,13 @@ The value-bet strategy is the only trading strategy currently implemented. The c
 
 | Parameter | Default | Description |
 |---|---|---|
-| `min-edge-pct` | 5 | Minimum edge % to trade |
+| `min-edge-pct` | 3 | Minimum edge % to trade |
 | `min-confidence` | medium | Minimum AI confidence |
-| `kelly-fraction` | 0.25 | Fractional Kelly multiplier |
-| `max-total-exposure-usd` | 10,000 | Total open exposure cap |
-| `max-position-size-usd` | 1,000 | Single position cap |
-| `max-single-market-percent` | 20 | Max % of exposure in one market |
-| `max-daily-loss-usd` | 500 | Daily loss stop |
-| `max-daily-trades` | 50 | Daily trade count limit |
-| `min-account-balance-usd` | 100 | Balance floor before halting |
+| `kelly-fraction` | 0.4 | Fractional Kelly multiplier |
+| `max-total-exposure-usd` | 15,000 | Total open exposure cap |
+| `max-position-size-usd` | 2,000 | Single position cap |
+| `max-single-market-percent` | 30 | Max % of exposure in one market |
+| `max-daily-loss-usd` | 1,000 | Daily loss stop |
+| `max-daily-trades` | 100 | Daily trade count limit |
+| `min-account-balance-usd` | 50 | Balance floor before halting |
 | `poll-interval-ms` | 5,000 | Polling frequency |

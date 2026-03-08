@@ -96,7 +96,7 @@ async function main() {
         'min-edge-pct': {
           describe: 'Minimum Edge Percentage to execute a trade',
           type: 'number',
-          default: 5
+          default: 3
         },
         'min-confidence': {
           describe: 'Minimum AI Confidence to rely on analyzing edge',
@@ -107,37 +107,37 @@ async function main() {
         'kelly-fraction': {
           describe: 'Kelly Criterion position size',
           type: 'number',
-          default: '0.25',
+          default: '0.4',
         },
         'max-total-exposure-usd': {
           describe: 'Maximum total exposure in USD',
           type: 'number',
-          default: 10000,
+          default: 15000,
         },
         'max-position-size-usd': {
           describe: 'Maximum position size in USD',
           type: 'number',
-          default: 1000,
+          default: 2000,
         },
         'max-single-market-percent': {
           describe: 'Maximum percentage of exposure in a single market',
           type: 'number',
-          default: 20,
+          default: 30,
         },
         'max-daily-loss-usd': {
           describe: 'Maximum daily loss in USD',
           type: 'number',
-          default: 500,
+          default: 1000,
         },
         'max-daily-trades': {
           describe: 'Maximum number of trades per day',
           type: 'number',
-          default: 50,
+          default: 100,
         },
         'min-account-balance-usd': {
           describe: 'Minimum account balance in USD before halting trades',
           type: 'number',
-          default: 100,
+          default: 50,
         },
 
       })

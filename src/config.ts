@@ -28,17 +28,17 @@ export const ValueBetConfig = GlobalConfig.extend({
   'ai-model-temperature': z.number().min(0).max(2).default(0.2),
 
   // strategy
-  'min-edge-pct': z.number().min(0).default(5),
+  'min-edge-pct': z.number().min(0).default(3),
   'min-confidence': Confidence.default('medium'),
-  'kelly-fraction': z.coerce.number().min(0).max(1).default(0.25),
+  'kelly-fraction': z.coerce.number().min(0).max(1).default(0.4),
 
   // risk
-  'max-total-exposure-usd': z.number().min(0).default(10000),
-  'max-position-size-usd': z.number().min(0).default(1000),
-  'max-single-market-percent': z.number().min(0).max(100).default(20),
-  'max-daily-loss-usd': z.number().min(0).default(500),
-  'max-daily-trades': z.number().int().min(0).default(50),
-  'min-account-balance-usd': z.number().min(0).default(100),
+  'max-total-exposure-usd': z.number().min(0).default(15000),
+  'max-position-size-usd': z.number().min(0).default(2000),
+  'max-single-market-percent': z.number().min(0).max(100).default(30),
+  'max-daily-loss-usd': z.number().min(0).default(1000),
+  'max-daily-trades': z.number().int().min(0).default(100),
+  'min-account-balance-usd': z.number().min(0).default(50),
   'poll-interval-ms': z.number().int().min(0).default(5000),
 }).superRefine((val, ctx) => {
   if (val['ai-provider'] === 'anthropic' && !val['ai-provider-api-key']) {
