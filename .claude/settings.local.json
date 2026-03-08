@@ -17,7 +17,11 @@
       "WebFetch(domain:docs.cdp.coinbase.com)",
       "WebFetch(domain:build.avax.network)",
       "WebFetch(domain:docs.metamask.io)",
-      "WebFetch(domain:www.x402.org)"
+      "WebFetch(domain:www.x402.org)",
+      "Skill(shipp)",
+      "Bash(curl:*)",
+      "Bash(yarn test:*)",
+      "Bash(shipp:*)"
     ]
   }
 }

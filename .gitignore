@@ -33,3 +33,5 @@ config.yml
 
 /.*/skills/
 /skills
+
+skills-lock.json
